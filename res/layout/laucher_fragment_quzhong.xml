@@ -1,0 +1,196 @@
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollview"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:scrollbars="none" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
+
+        <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_1"
+            style="@style/LButton2"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="139dp"
+            android:visibility="gone"/>
+
+        <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_2"
+            style="@style/LButton3"
+            android:layout_marginLeft="0dp"
+
+            android:layout_marginTop="139dp"  />
+
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_3"
+            style="@style/LButton3"
+
+            android:layout_toRightOf="@id/button_2"
+            android:layout_marginLeft="-12dp"
+            android:layout_marginTop="139dp"  />
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_4"
+            style="@style/LButton3"
+            android:layout_marginTop="-12dp"
+           android:layout_below="@+id/button_2"
+            android:layout_marginLeft="0dp"  />
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_5"
+            style="@style/LButton3"
+            android:layout_marginTop="-12dp"
+             android:layout_below="@+id/button_3"
+            android:layout_toRightOf="@id/button_4"
+            android:layout_marginLeft="-12dp"  />
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_6"
+            style="@style/LButton3"
+            android:layout_marginTop="-12dp"
+            android:layout_toRightOf="@id/button_3"
+            android:layout_below="@+id/button_8"
+            android:layout_marginLeft="-12dp"  />
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_7"
+            style="@style/LButton3"
+            android:layout_marginTop="-12dp"
+            android:layout_toRightOf="@id/button_6"
+            android:layout_marginLeft="-12dp"
+            android:layout_below="@+id/button_8"  />
+			
+        <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_8"
+            style="@style/LButton2"
+            android:layout_marginLeft="-12dp"
+            android:layout_marginTop="139dp"
+            android:layout_toRightOf="@id/button_5"/>
+
+        <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_9"
+            style="@style/LButton3"
+            android:layout_toRightOf="@id/button_7"
+            android:layout_below="@id/button_8"
+            android:layout_marginTop="-12dp"
+            android:layout_marginLeft="-12dp"  />
+
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_10"
+            style="@style/LButton3"
+            android:layout_below="@id/button_8"
+            android:layout_toRightOf="@id/button_9"
+            android:layout_marginLeft="-12dp"
+            android:layout_marginTop="-12dp"  />
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_11"
+            style="@style/LButton3"
+            android:layout_marginTop="139dp"
+            android:layout_toRightOf="@id/button_8"
+            android:layout_marginLeft="-12dp"  />
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_12"
+            style="@style/LButton3"
+            android:layout_marginTop="139dp"
+            android:layout_toRightOf="@id/button_11"
+            android:layout_marginLeft="-12dp"  />
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_13"
+            style="@style/LButton3"
+            android:layout_marginTop="-12dp"
+            android:layout_toRightOf="@id/button_10"
+            android:layout_below="@id/button_11"
+            android:layout_marginLeft="-12dp"  />
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_14"
+            style="@style/LButton3"
+            android:layout_marginTop="-12dp"
+            android:layout_toRightOf="@id/button_13"
+            android:layout_marginLeft="-12dp"
+            android:layout_below="@id/button_12" 
+			android:visibility="gone"/>	
+			
+        <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_15"
+            style="@style/LButton2"
+            android:layout_marginLeft="-12dp"
+            android:layout_marginTop="139dp"
+            android:layout_toRightOf="@id/button_12"/>
+
+        <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_16"
+            style="@style/LButton3"
+            android:layout_toRightOf="@id/button_14"
+            android:layout_below="@id/button_15"
+            android:layout_marginTop="-12dp"
+            android:layout_marginLeft="-12dp"
+            android:visibility="gone"/>
+
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_17"
+            style="@style/LButton3"
+            android:layout_below="@id/button_15"
+            android:layout_toRightOf="@+id/button_18"
+            android:layout_marginLeft="-12dp"
+            android:layout_marginTop="-12dp"  />
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_18"
+            style="@style/LButton3"
+           android:layout_marginTop="-12dp"
+            android:layout_toRightOf="@id/button_13"
+            android:layout_marginLeft="-12dp"
+            android:layout_below="@id/button_12"  />
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_19"
+            style="@style/LButton3"
+			android:layout_marginTop="-12dp"
+           android:layout_below="@id/button_15"
+            android:layout_toRightOf="@+id/button_17"
+            android:layout_marginLeft="-12dp"  />
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_20"
+            style="@style/LButton3"
+           android:layout_toRightOf="@id/button_18"
+            android:layout_below="@id/button_15"
+            android:layout_marginTop="-12dp"
+            android:layout_marginLeft="-12dp"
+            android:visibility="gone"			/>
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_21"
+            style="@style/LButton3"
+            android:layout_marginTop="-12dp"
+            android:layout_toRightOf="@id/button_17"
+            android:layout_marginLeft="-12dp"
+            android:layout_below="@id/button_19"
+            android:visibility="gone"			/>	
+			
+        <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_22"
+            style="@style/LButton2"
+            android:layout_marginLeft="-12dp"
+            android:layout_marginTop="139dp"
+            android:layout_toRightOf="@id/button_15"/>	
+			
+       <com.jsl.ktv.view.AnimationButton
+            android:id="@+id/button_23"
+            style="@style/LButton2"
+            android:layout_marginTop="-12dp"
+            android:layout_toRightOf="@id/button_19"
+            android:layout_marginLeft="-12dp"
+            android:layout_below="@id/button_22"  />	
+			
+       			
+        
+    </RelativeLayout>
+
+</HorizontalScrollView>

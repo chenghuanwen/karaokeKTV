@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1100dp"
+            style="@android:style/Widget.ProgressBar"
+            android:visibility="visible"/>
+        <TextView
+            android:id="@+id/load_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginLeft="1110dp"
+            android:textSize="18sp"/>
+    </LinearLayout>

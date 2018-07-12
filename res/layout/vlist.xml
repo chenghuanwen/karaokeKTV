@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="70.0dip"
+    android:drawingCacheQuality="high"
+    android:minHeight="70.0dip"
+    android:orientation="horizontal" 
+	android:descendantFocusability="afterDescendants"
+	android:background="@drawable/btn_gmlist_selecter"
+	android:layout_marginRight="40dip"
+	android:layout_marginLeft="15dip"
+	>
+    <TextView
+		android:id="@+id/title" 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:gravity="center_vertical"
+		android:layout_marginLeft="70dip"
+        android:layout_marginTop="3dip"
+		android:textStyle="bold"
+		android:singleLine="true" 
+        android:ellipsize="marquee"  
+        android:marqueeRepeatLimit="marquee_forever" 
+		android:textSize="20.0sp" 
+		android:focusable = "false"
+		android:textColor="@drawable/textcolor_selector"
+		
+	/>
+
+
+    <TextView
+        android:id="@+id/info" 
+	    android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+        android:layout_below="@id/title"
+        android:layout_marginLeft="70dip"
+        android:layout_marginTop="20dip"
+        android:textColor="#ff4400"
+        android:textSize="12.0sp" />
+		
+		<LinearLayout 
+    	android:layout_width="wrap_content"
+		android:layout_height="40dp" 
+		android:orientation="horizontal"
+		android:layout_marginTop="30dp"
+		android:layout_alignParentRight="true">
+		
+		<Button 
+		android:id="@+id/view_btn2"
+		android:layout_width="50dp"
+		android:layout_height="40dp"
+        android:nextFocusLeft="@+id/sItemIcon"
+		android:background="@drawable/btn_detail_selecter"
+		
+        android:layout_marginRight="10dip"
+	/>
+		
+    	    <Button android:id="@+id/view_btn"
+		android:layout_width="50dp"
+		android:layout_height="40dp"
+       android:nextFocusLeft="@+id/view_btn2"
+		android:background="@drawable/btn_youxian_selecter"
+		android:visibility="gone"
+		
+        android:layout_marginRight="10dip" 
+		/>
+    	    
+    	    	
+	
+	
+	<Button android:id="@+id/view_btn3"
+		android:layout_width="50dp"
+		android:layout_height="40dp"
+
+		android:background="@drawable/btn_gengduo_selecter"
+		
+		 />
+    
+    	</LinearLayout>
+    
+    	
+
+		
+<ImageView
+        android:id="@+id/sItemIcon"
+        android:layout_width="10dp"
+		android:layout_height="10dp"
+		android:scaleType="fitXY"
+		android:padding="1dip"
+		android:focusable = "false"
+        android:layout_marginLeft="240dip"
+        android:layout_marginTop="50dip"/>
+
+</RelativeLayout>

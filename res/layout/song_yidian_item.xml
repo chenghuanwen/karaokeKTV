@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    >
+    <RelativeLayout 
+		android:id="@+id/rl_bg"
+        android:layout_width="340dp"
+        android:layout_height="95dp"
+		android:background="@drawable/song_unselect_bg">
+        <ImageView 
+            android:id="@+id/iv_singer"
+            android:layout_width="122dp"
+            android:layout_height="95dp"
+            android:src="@drawable/song_default"
+			android:scaleType="fitXY"/>
+         <TextView 
+            android:id="@+id/tv_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_singer"
+            android:layout_below="@+id/tv_language"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="14.7dp"
+            android:textColor="#60ffffff"
+            android:textSize="16sp"
+			android:singleLine="true"
+			android:ellipsize="end"
+			android:text="@string/wait_download"/>
+        <ImageView 
+            android:id="@+id/iv_score"
+            android:layout_width="47dp"
+            android:layout_height="26dp"
+            android:layout_alignParentBottom="true"/>
+        <TextView 
+            android:id="@+id/tv_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_singer"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="14.7dp"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:singleLine="true"
+			android:ellipsize="end"/>
+        <TextView 
+            android:id="@+id/tv_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_singer"
+            android:layout_below="@+id/tv_song"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="14.7dp"
+            android:textColor="#60ffffff"
+            android:textSize="16sp"/>
+        
+        <TextView 
+            android:id="@+id/tv_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_language"
+            android:layout_below="@+id/tv_song"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="14.7dp"
+            android:textColor="#60ffffff"
+            android:textSize="16sp"
+            android:singleLine="true"
+			android:ellipsize="end"/>
+		
+		  <ImageView 
+            android:id="@+id/iv_youxian"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:focusable="true"
+           
+            />
+        <ImageView 
+            android:id="@+id/iv_delete"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+			android:layout_marginBottom="0dp"
+            android:focusable="false"
+            android:nextFocusLeft="@+id/iv_youxian"
+            android:src="@drawable/new_delete_button"
+			android:visibility="gone"/>
+       
+       
+    </RelativeLayout>
+    
+
+</LinearLayout>

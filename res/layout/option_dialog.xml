@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+    <LinearLayout 
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <Button android:id="@+id/view_btn1"
+		android:layout_width="50dp"
+		android:layout_height="40dp"
+		android:background="@drawable/btn_gongfang_selecter"
+		 />
+    <TextView 
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="@string/song_handle1"
+		android:gravity="center_horizontal"
+		android:textSize="12sp"/>    
+    </LinearLayout>
+     <LinearLayout 
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+     <Button android:id="@+id/view_btn2"
+		android:layout_width="50dp"
+		android:layout_height="40dp"
+		android:background="@drawable/btn_detail_selecter"
+		android:nextFocusLeft="@+id/view_btn1" />
+        <TextView 
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="@string/song_handle2"
+		android:gravity="center_horizontal"
+		android:textSize="12sp"/>    
+    </LinearLayout>
+     <LinearLayout 
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+         <Button android:id="@+id/view_btn3"
+		android:layout_width="50dp"
+		android:layout_height="40dp"
+		android:background="@drawable/new_shoucang_button"
+	/>
+          <TextView 
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="@string/song_handle3"
+		android:gravity="center_horizontal"
+		android:textSize="12sp"/>    
+    </LinearLayout>
+    
+   
+   
+
+</LinearLayout>

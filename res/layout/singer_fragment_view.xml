@@ -1,0 +1,183 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/singer_frameng"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="55dp" >
+        
+        <HorizontalScrollView
+            android:id="@+id/ll_singer_class"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="50dp"
+        	android:layout_marginLeft="10dp"
+        	android:focusable="false"
+        	android:scrollbars="none">
+            <LinearLayout 
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+           <Button 
+                    android:id="@+id/btn_singer_class_all"
+                    style="@style/Singer_class_button"
+                    android:text="@string/class_all"/>
+              
+                 <Button 
+                    android:id="@+id/btn_singer_class_1"
+                    style="@style/Singer_class_button"
+                    android:text="@string/singer_class1"/>
+              
+                 <Button 
+                    android:id="@+id/btn_singer_class_2"
+                    style="@style/Singer_class_button"
+                    android:text="@string/singer_class2"/>
+               
+                 <Button 
+                    android:id="@+id/btn_singer_class_3"
+                    style="@style/Singer_class_button"
+                    android:text="@string/singer_class3"/>
+               
+                 <Button 
+                    android:id="@+id/btn_singer_class_4"
+                    style="@style/Singer_class_button"
+                    android:text="@string/singer_class4"/>
+               
+                 <Button 
+                    android:id="@+id/btn_singer_class_5"
+                    style="@style/Singer_class_button"
+                    android:text="@string/singer_class5"/>
+               
+                 <Button 
+                    android:id="@+id/btn_singer_class_6"
+                    style="@style/Singer_class_button"
+                    android:text="@string/singer_class6"/>
+              
+                 <Button 
+                    android:id="@+id/btn_singer_class_7"
+                    style="@style/Singer_class_button"
+                    android:text="@string/singer_class7"/>
+                
+                 <Button 
+                    android:id="@+id/btn_singer_class_8"
+                    style="@style/Singer_class_button"
+                    android:text="@string/singer_class8"/>
+              
+                 <Button 
+                    android:id="@+id/btn_singer_class_9"
+                    style="@style/Singer_class_button"
+                    android:text="@string/singer_class9"/>
+                
+                 <Button 
+                    android:id="@+id/btn_singer_class_10"
+                    style="@style/Singer_class_button"
+                    android:text="@string/singer_class10"/>
+                
+                 <Button 
+                    android:id="@+id/btn_singer_class_11"
+                    style="@style/Singer_class_button"
+                    android:text="@string/singer_class11"/>
+                <View style="@style/Language_blank_view"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+        
+	    <LinearLayout 
+        android:id="@+id/ll_titel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/ll_singer_class">
+        <TextView 
+		android:id="@+id/tv_search_1" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textColor="#fff"
+        android:textSize="18sp" />
+        <TextView
+        android:id="@+id/tv_search_count" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textColor="#fff"
+        android:textSize="18sp"
+       	/>
+        <TextView 
+		android:id="@+id/tv_search_2" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+    </LinearLayout>
+	<!-- <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentRight="true"
+		android:layout_marginRight="80dp"
+		android:text="@string/reset_search_condition"/>-->
+	
+	<!-- <GridView 
+        android:id="@+id/grid_main"
+        android:layout_width="700dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+		android:layout_marginBottom="30dp"
+        android:numColumns="4" 
+		android:scrollbars="none"
+        android:horizontalSpacing="66dp"
+		android:verticalSpacing="35dp"
+		android:columnWidth="120dp" 
+		android:listSelector="@drawable/singer_back_selecter"  
+        >
+    </GridView>-->
+	
+		 <com.jsl.ktv.view.CustomeGridView 
+        android:id="@+id/grid_main"
+        android:layout_width="700dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="125dp"
+		android:layout_marginBottom="30dp"
+        android:numColumns="4" 
+		android:scrollbars="none"
+        android:horizontalSpacing="56dp"
+		android:verticalSpacing="30dp"
+		android:columnWidth="120dp" 
+		android:listSelector="@drawable/singer_back_selecter"  
+        >
+    </com.jsl.ktv.view.CustomeGridView >
+
+         <ImageView 
+        android:id="@+id/iv_pageup"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+		 android:focusable="false"
+        android:layout_marginRight="49dp"
+        android:src="@drawable/scroll_up"
+        android:layout_below="@+id/ll_singer_class"
+       />
+     <ImageView 
+        android:id="@+id/iv_pagedown"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="28dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+		 android:focusable="false"
+        android:layout_marginRight="49dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/scroll_dowm"/>
+    
+		 
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="400dp"
+    android:id="@+id/dialogid"
+    android:orientation="vertical"
+    android:background="@drawable/beijing"
+   > 
+	<TextView
+        android:id="@+id/setting_tittle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+		android:textColor = "#ffffff" 
+		android:textSize ="30sp"
+		android:layout_gravity ="center"
+		android:text ="@string/gongju"
+        android:gravity="center"
+        android:layout_marginTop="20dp"/>
+	<LinearLayout 
+	     android:id="@+id/ll1"
+	   android:layout_width="184dp"
+         android:layout_height="63dp"
+         android:layout_marginTop="30dp"
+		 android:layout_gravity ="center"
+		 android:orientation="horizontal"
+		  android:background="@drawable/btn_new_selecter"
+		   android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		  android:nextFocusDown="@+id/ll2"
+		  >
+		  <ImageView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/xiugaimima"
+	        android:layout_marginLeft="10dp"
+	        android:layout_gravity="center_vertical"
+	         android:focusable="false"/>
+	    <Button
+         android:id="@+id/password_button"
+         android:layout_width="150dp"
+         android:layout_height="63dp"
+		 android:gravity ="center"
+         android:textSize="25sp"
+		 android:focusable="false"
+		 android:textColor ="#ffffff"
+		 android:background="@null"
+		 android:layout_gravity ="center"/> 
+	</LinearLayout>
+
+   <LinearLayout 
+         android:id="@+id/ll2"
+	   android:layout_width="184dp"
+         android:layout_height="63dp"
+         android:layout_marginTop="30dp"
+		 android:layout_gravity ="center"
+		 android:orientation="horizontal"
+		 android:background="@drawable/btn_new_selecter"
+		   android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		  android:nextFocusUp="@+id/ll1"
+		  android:nextFocusDown="@+id/ll3">
+	    <ImageView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/diangeshezhi"
+	        android:layout_marginLeft="10dp"
+	        android:layout_gravity="center_vertical"
+	         android:focusable="false"/>
+	      <Button
+       android:id="@+id/setting_button"
+         android:layout_width="150dp"
+         android:layout_height="63dp"
+		 android:gravity ="center"
+		 android:background="@null"
+         android:textSize="25sp"
+		 android:focusable="false"
+		 android:textColor ="#ffffff"
+		android:layout_gravity ="center"/>
+</LinearLayout>
+
+
+
+<LinearLayout 
+     android:id="@+id/ll3"
+	   android:layout_width="184dp"
+         android:layout_height="63dp"
+         android:layout_marginTop="30dp"
+		 android:layout_gravity ="center"
+		 android:orientation="horizontal"
+		   android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:background="@drawable/btn_new_selecter"
+		  android:nextFocusUp="@+id/ll2"
+		  >
+	       <ImageView 
+	       android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/gekuguanli"
+	        android:layout_marginLeft="10dp"
+	        android:layout_gravity="center_vertical"
+	         android:focusable="false"/>
+	      <Button
+        android:id="@+id/geku_button"
+         android:layout_width="150dp"
+         android:layout_height="63dp"
+		 android:gravity ="center"
+		 android:background="@null"
+         android:textSize="25sp"
+		 android:focusable="false"
+		 android:textColor = "#ffffff"
+		android:layout_gravity ="center"
+		 />
+    
+    </LinearLayout>
+
+
+
+	 
+</LinearLayout>

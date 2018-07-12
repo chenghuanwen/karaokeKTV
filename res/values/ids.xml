@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ==========主  界  面========== -->
+    <item name="title_group" type="id"/>
+    <item name="latest_recommend" type="id"/>
+    <item name="tv_show" type="id"/>
+    <item name="video_type" type="id"/>
+    <item name="play_collect" type="id"/>
+    <item name="application" type="id"/>
+    <item name="settings" type="id"/>
+    <item name="main_search" type="id"/>
+    <item name="main_layout_pager" type="id"/>
+    <item name="latest_layout" type="id"/>
+    <!-- ==========首 页==》》最 新 推 荐========== -->
+    <item name="latest_recommend_fl_0" type="id"/>
+    <item name="latest_recommend_bg_0" type="id"/>
+    <item name="latest_recommend_bg_1" type="id"/>
+    <item name="latest_recommend_bg_2" type="id"/>
+    <item name="latest_recommend_bg_3" type="id"/>
+    <item name="latest_recommend_bg_4" type="id"/>
+    <item name="latest_recommend_bg_5" type="id"/>
+    <item name="latest_recommend_bg_6" type="id"/>
+    <item name="latest_recommend_bg_7" type="id"/>
+    <item name="latest_recommend_bg_8" type="id"/>
+    <item name="latest_recommend_bg_9" type="id"/>
+    <item name="latest_recommend_poster_0" type="id"/>
+    <item name="latest_recommend_text_0" type="id"/>
+    <item name="latest_recommend_fl_1" type="id"/>
+    <item name="latest_recommend_poster_1" type="id"/>
+    <item name="latest_recommend_text_1" type="id"/>
+    <item name="latest_recommend_fl_2" type="id"/>
+    <item name="latest_recommend_poster_2" type="id"/>
+    <item name="latest_recommend_text_2" type="id"/>
+    <item name="latest_recommend_fl_3" type="id"/>
+    <item name="latest_recommend_poster_3" type="id"/>
+    <item name="latest_recommend_text_3" type="id"/>
+    <item name="latest_recommend_fl_4" type="id"/>
+    <item name="latest_recommend_poster_4" type="id"/>
+    <item name="latest_recommend_text_4" type="id"/>
+    <item name="latest_recommend_fl_5" type="id"/>
+    <item name="latest_recommend_poster_5" type="id"/>
+    <item name="latest_recommend_text_5" type="id"/>
+    <item name="latest_recommend_fl_6" type="id"/>
+    <item name="latest_recommend_poster_6" type="id"/>
+    <item name="latest_recommend_text_6" type="id"/>
+    <item name="latest_recommend_fl_7" type="id"/>
+    <item name="latest_recommend_poster_7" type="id"/>
+    <item name="latest_recommend_text_7" type="id"/>
+    <item name="latest_recommend_fl_8" type="id"/>
+    <item name="latest_recommend_poster_8" type="id"/>
+    <item name="latest_recommend_text_8" type="id"/>
+    <item name="latest_recommend_fl_9" type="id"/>
+    <item name="latest_recommend_poster_9" type="id"/>
+    <item name="latest_recommend_text_9" type="id"/>
+    <item name="hot_reflected_img_0" type="id"/>
+    <item name="hot_reflected_img_1" type="id"/>
+    <item name="hot_reflected_img_2" type="id"/>
+    <item name="hot_reflected_img_3" type="id"/>
+    <item name="hot_reflected_img_4" type="id"/>
+    <item name="hot_reflected_img_5" type="id"/>
+
+
+    <item name="search_top_tables" type="id"/>
+    <item name="search_empty_text" type="id"/>
+    <!-- ==========其 他========== -->
+    <item name="white_boder" type="id"/>
+
+</resources>

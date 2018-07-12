@@ -1,0 +1,156 @@
+<hisi>
+
+    <cate name="Online Videos" >
+
+        <tile
+            name="Movies"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="movie"
+            image="movie.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+
+        <tile
+            name="Live"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="live"
+            image="tv_play.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+
+        <tile
+            name="Doucumentary"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="doucumentary"
+            image="doucumentary.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+
+        <tile
+            name="Variety"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="variety"
+            image="zongyi.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+
+        <tile
+            name="TV Serials"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="tv"
+            image="dianshiju.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+
+        <tile
+            name="Music"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="music"
+            image="music.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+
+        <tile
+            name="Kid Series"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="kids"
+            image="shaoer.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+
+        <tile
+            name="Comic"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="comic"
+            image="dongman.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+
+        <tile
+            name="Sports"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="sports"
+            image="tiyu.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+
+        <tile
+            name="Hot Information"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="hot"
+            image="variety.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+
+        <tile
+            name="戏曲"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="xiqu"
+            image="dlna.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+    </cate>
+
+    <cate name="Recommended APKs" >
+
+        <tile
+            name="All APKs"
+            activity="com.hisilicon.android.appmanager.views.MyAppMainActivity"
+            image="app_center.png"
+            target="com.hisilicon.android.appmanager" />
+
+        <tile
+            name="MediaCenter"
+            activity="com.explorer.activity.TabBarExample"
+            image="media_center.png"
+            target="com.explorer" />
+        <tile
+            name="KaraOK"
+            activity="com.iflytek.aichang.tv.app.TVMainActivity"
+            image="kalaok.png"
+            target="com.iflytek.aichang.tv" />
+    </cate>
+
+    <cate name="System Utils" >
+
+        <tile
+            name="History"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="history"
+            image="lishi.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+
+        <tile
+            name="Search"
+            activity="com.player.boxplayer.activity.MoreTV"
+            extra="search"
+            image="live.png"
+            keytype="0"
+            target="com.player.boxplayer" />
+
+        <tile
+            name="NetSpeedTest"
+            activity="tv.tool.netspeedtest.HomeAct"
+            image="browser.png"
+            target="tv.tool.netspeedtest" />
+
+        <tile
+            name="APK Market"
+            activity="com.shafa.market.ShafaHomeAct"
+            image="shafa.png"
+            target="com.shafa.market" />
+
+        <tile
+            name="Setting"
+            activity="com.android.hisiliconsetting.MainActivity"
+            image="setting.png"
+            target="com.android.hisiliconsetting" />
+    </cate>
+
+    <search
+        activity="hisi.stb.sevic.MainActivity"
+        target="hisi.stb.sevic" >
+    </search>
+
+</hisi>

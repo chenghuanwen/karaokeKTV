@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/first_num"
+        style="@style/wrap"
+        android:scaleType="center"
+        android:paddingLeft="10dp"
+        android:src="@drawable/num0" />
+
+    <ImageView
+        android:id="@+id/second_num"
+        style="@style/wrap"
+        android:layout_toRightOf="@id/first_num"
+         android:paddingTop="5dp"
+        android:src="@drawable/num1" />
+
+    <ImageView
+        android:id="@+id/score_line"
+        style="@style/wrap"
+        android:scaleType="fitXY"
+        android:layout_below="@id/first_num"
+        android:src="@drawable/num_buttom" />
+
+</RelativeLayout>

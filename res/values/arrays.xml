@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="home_fragment_title">
+        <item>KTV</item>
+        <item>Movie</item>
+        <item>Song</item>
+        <item>Ranking</item>
+        <item>Setting</item>
+        <item>VR</item>
+        <item>Online TV</item>
+        <item>Machine Infor</item>
+        <item>App Store</item>
+        <item>4K</item>
+        <item>Smart Home</item>
+        <item>Game</item>
+        <item>Online TV</item>
+    </string-array>
+    <string-array name="child_fragment1_title">
+        <item>应用</item>
+        <item>本地视频</item>
+        <item>本地音乐</item>
+        <item>在线音乐</item>
+        <item>在线视频</item>
+        <item>外设商城</item>
+    </string-array>
+    <string-array name="child_fragment2_title">
+        <item>应用</item>
+        <item>设置</item>
+        <item>收音机</item>
+        <item>网购</item>
+        <item>本地视频</item>
+        <item>本地音乐</item>
+        <item>在线音乐</item>
+        <item>在线视频</item>
+        <item>意见反馈</item>
+        <item>收音机</item>
+        <item>网购</item>
+        <item>本地视频</item>
+        <item>本地音乐</item>
+        <item>在线音乐</item>
+        <item>在线视频</item>
+        <item>意见反馈</item>
+    </string-array>
+    <string-array name="wifi_add_secure_value">
+        <item>无密码</item>
+        <item>WEP</item>
+        <item>PSK</item>
+    </string-array>
+
+</resources>

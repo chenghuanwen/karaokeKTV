@@ -1,0 +1,80 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/animation_button"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/animation_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="11dp"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tp_animation_text"
+        style="@style/PH_T_TextOnMainLayout_new"
+        android:layout_width="match_parent"
+        android:layout_height="80dip"
+	    android:layout_gravity="top"
+        android:layout_marginTop="255dp" />
+	<TextView
+        android:id="@+id/song1_text"
+        style="@style/PH_TextOnMainLayout_new"
+        android:layout_width="170dp"
+        android:layout_height="40dip"
+	    android:layout_gravity="top"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="350dp"/>
+	<TextView
+        android:id="@+id/singer1_text"
+        style="@style/PH_TextOnMainLayout_new"
+        android:layout_width="90dp"
+        android:layout_height="40dip"
+	    android:layout_gravity="top"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="350dp"  />
+	<TextView
+        android:id="@+id/song2_text"
+        style="@style/PH_TextOnMainLayout_new"
+        android:layout_width="170dp"
+        android:layout_height="40dip"
+	    android:layout_gravity="top"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="395dp"/>
+	<TextView
+        android:id="@+id/singer2_text"
+        style="@style/PH_TextOnMainLayout_new"
+        android:layout_width="90dp"
+        android:layout_height="40dip"
+	    android:layout_gravity="top"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="395dp"  />
+	<TextView
+        android:id="@+id/song3_text"
+        style="@style/PH_TextOnMainLayout_new"
+        android:layout_width="170dp"
+        android:layout_height="40dip"
+	    android:layout_gravity="top"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="440dp"/>
+	<TextView
+        android:id="@+id/singer3_text"
+        style="@style/PH_TextOnMainLayout_new"
+        android:layout_width="90dp"
+        android:layout_height="40dip"
+	    android:layout_gravity="top"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="440dp"  />			
+
+    <ImageView
+        android:id="@+id/animation_bk_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        android:src="@drawable/focus"
+        android:visibility="gone" />
+
+</FrameLayout>

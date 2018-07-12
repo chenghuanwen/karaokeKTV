@@ -1,0 +1,48 @@
+
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+
+LOCAL_MODULE_TAGS := optional
+
+
+LOCAL_STATIC_JAVA_LIBRARIES += JustlinkKTV-universal
+LOCAL_STATIC_JAVA_LIBRARIES += JustlinkKTV-zxing
+#LOCAL_STATIC_JAVA_LIBRARIES += HiSysManager
+#LOCAL_STATIC_JAVA_LIBRARIES += HiMediaPlayer
+#LOCAL_STATIC_JAVA_LIBRARIES += HiAudioManager
+#LOCAL_STATIC_JAVA_LIBRARIES += HiDisplaySetting
+#LOCAL_STATIC_JAVA_LIBRARIES += HiNetShare
+#LOCAL_STATIC_JAVA_LIBRARIES += YS952
+LOCAL_SRC_FILES := $(call all-subdir-java-files)
+
+LOCAL_JAVA_LIBRARIES :=
+
+LOCAL_JNI_SHARED_LIBRARIES := libandroid_runtime
+LOCAL_JNI_SHARED_LIBRARIES += libjlinkjni
+LOCAL_JNI_SHARED_LIBRARIES += libhikaraoke_mic_jni
+LOCAL_JNI_SHARED_LIBRARIES += libcurl
+LOCAL_JNI_SHARED_LIBRARIES += libiconv
+LOCAL_JNI_SHARED_LIBRARIES += libhi_msp
+
+LOCAL_PACKAGE_NAME := JustlinkKTV
+
+ALL_DEFAULT_INSTALLED_MODULES += $(LOCAL_PACKAGE_NAME)
+
+LOCAL_CERTIFICATE := platform
+
+LOCAL_PROGUARD_ENABLED := disabled
+
+include $(BUILD_PACKAGE)
+
+
+
+include $(CLEAR_VARS)
+LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES += JustlinkKTV-zxing:libs/zxing.jar
+LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES += JustlinkKTV-universal:libs/universal-image.jar
+LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES += JustlinkKTV-javalib:libs/javalib.jar
+LOCAL_MODULE_TAGS := optional
+include $(BUILD_MULTI_PREBUILT)
+
+
+include $(call all-makefiles-under,$(LOCAL_PATH))
+

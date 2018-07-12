@@ -1,0 +1,50 @@
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+        android:layout_height="wrap_content"  
+        android:layout_width="fill_parent"  
+        android:paddingBottom="4dip"  
+        >  
+        <ImageButton
+            android:id="@+id/ib_luyin_start"
+            android:layout_height="45dp"  
+            android:layout_width="45dp"
+			android:layout_centerVertical="true" 
+			android:layout_marginLeft="20dp" 
+             android:background="@drawable/luying_start"
+			 android:visibility="gone"
+			 android:clickable="false"/>
+        <Button  
+            android:id="@+id/pre_page"  
+            android:layout_height="45dp"  
+            android:layout_width="45dp"
+			android:layout_centerVertical="true" 
+			android:layout_marginLeft="78dp" 
+			android:background="@drawable/btn_pre_selecter"
+            />
+        
+       
+		<TextView  
+            android:id="@+id/page"  
+            android:layout_width="wrap_content"  
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+			android:layout_centerVertical="true" />	
+         
+        <Button  
+            android:id="@+id/next_page"  
+            android:layout_width="45dp"  
+            android:layout_height="45dp"
+			android:layout_marginLeft="218dp" 
+			android:layout_centerVertical="true"
+			android:background="@drawable/btn_next_selecter"
+            />  
+            <ImageButton
+            android:id="@+id/ib_luyin_stop"
+            android:layout_height="45dp"  
+            android:layout_width="45dp"
+			android:layout_centerVertical="true" 
+			android:layout_marginLeft="276dp" 
+             android:background="@drawable/luyin_stop"
+			 android:visibility="gone"
+			 android:clickable="false"/>
+    </RelativeLayout>  

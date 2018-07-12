@@ -1,0 +1,112 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sound="http://schemas.android.com/apk/res/com.jsl.ktv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <com.jsl.ktv.audio.MyEqualizerSeekBar
+            android:id="@+id/seek_bar_0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:nextFocusLeft="@+id/seek_bar_4"
+            sound:text="@string/equalizer_100" 
+            android:visibility="gone"/>
+
+        <com.jsl.ktv.audio.MyEqualizerSeekBar
+            android:id="@+id/seek_bar_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            sound:text="@string/equalizer_300" />
+
+        <com.jsl.ktv.audio.MyEqualizerSeekBar
+            android:id="@+id/seek_bar_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            sound:text="@string/equalizer_1K" 
+            android:visibility="gone"/>
+
+        <com.jsl.ktv.audio.MyEqualizerSeekBar
+            android:id="@+id/seek_bar_3"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="50dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            sound:text="@string/equalizer_3K" />
+
+
+    </LinearLayout>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp">
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sound_mode"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="70dp"
+            android:paddingBottom="3dp"/>
+        <Button 
+            android:id="@+id/btn_sound_1"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/btn_sound_selecter"
+            android:textColor="#fff"
+            android:text="@string/sound_mode_1"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:paddingBottom="3dp"/>
+        <Button 
+            android:id="@+id/btn_sound_2"
+             android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/btn_sound_selecter"
+            android:textColor="#fff"
+            android:text="@string/sound_mode_2"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:paddingBottom="3dp"/>
+        <Button 
+            android:id="@+id/btn_sound_3"
+             android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/btn_sound_selecter"
+            android:textColor="#fff"
+            android:text="@string/sound_mode_3"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:paddingBottom="3dp"/>
+    </LinearLayout>
+
+</LinearLayout>

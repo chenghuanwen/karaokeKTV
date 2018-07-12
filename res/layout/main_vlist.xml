@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="70.0dip"
+    android:drawingCacheQuality="high"
+    android:minHeight="70.0dip"
+    android:orientation="horizontal" 
+	android:descendantFocusability="afterDescendants"
+	android:layout_marginRight="40dip"
+	android:layout_marginLeft="15dip"
+	>
+	
+	<Button android:id="@+id/main_view_btn"
+		android:layout_width="170.0dip"
+		android:layout_height="70.0dip"
+		android:paddingLeft="60dip"
+		android:background="@drawable/btn_main_selecter"
+		android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+		android:nextFocusLeft="@+id/sItemIcon"
+		android:textSize="20.0sp"
+		android:textColor="@color/white"
+		android:singleLine="true" 
+        android:ellipsize="marquee"  
+        android:marqueeRepeatLimit="marquee_forever"/>
+
+   <Button android:id="@+id/main_view_btn2"
+		android:layout_width="170.0dip"
+		android:layout_height="70.0dip"
+		android:paddingLeft="60dip"
+		android:background="@drawable/btn_main_selecter"
+		android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+		android:focusable = "true"
+        android:focusableInTouchMode="true"
+		android:textSize="20.0sp"
+		android:textColor="@color/white"
+		android:singleLine="true" 
+        android:ellipsize="marquee"  
+        android:marqueeRepeatLimit="marquee_forever" 
+		/>
+		<ImageView
+        android:id="@+id/sItemIcon_main"
+        android:layout_width="59.0dip"
+		android:layout_height="54.0dip"
+		android:scaleType="fitXY"
+		android:padding="1dip"
+        android:layout_marginLeft="8dip"
+        android:layout_marginTop="8dip"
+		/>
+		<ImageView
+        android:id="@+id/sItemIcon2_main"
+        android:layout_width="59.0dip"
+		android:layout_height="54.0dip"
+		android:scaleType="fitXY"
+		android:padding="1dip"
+        android:layout_marginLeft="171dip"
+        android:layout_marginTop="8dip"
+		/>
+
+</RelativeLayout>

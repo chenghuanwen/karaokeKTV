@@ -1,0 +1,7 @@
+<hisi>
+    <item bundlekey="ss" valuetype="string" value="smith"/>
+    <item bundlekey="ii" valuetype="int" value="34"/>
+    <item bundlekey="bb" valuetype="boolean" value="true"/>
+    <item bundlekey="ff" valuetype="float" value="67.89"/>
+    <item bundlekey="cc" valuetype="char" value="s"/>
+</hisi>

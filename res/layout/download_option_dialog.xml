@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" 
+    android:background="@drawable/diange_dialog_bg">
+    <LinearLayout 
+        android:layout_width="240dp"
+        android:layout_height="86.7dp"
+        android:orientation="horizontal">
+       
+   
+     <LinearLayout 
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+		android:layout_weight="1"
+		 android:layout_gravity="center">
+     <Button android:id="@+id/view_btn2"
+		android:layout_width="45.3dp"
+		android:layout_gravity="center_horizontal"
+		android:layout_height="45.3dp"
+		android:background="@drawable/new_shangchuan_button"
+	 />
+        <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/song_handle3"
+		android:gravity="center_horizontal"
+		android:textSize="12sp"/>    
+    </LinearLayout>
+     <LinearLayout 
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+		android:layout_weight="1"
+		 android:layout_gravity="center">
+         <Button android:id="@+id/view_btn3"
+		android:layout_width="45.3dp"
+		android:layout_height="45.3dp"
+		android:layout_gravity="center_horizontal"
+		android:background="@drawable/new_zanting_button"
+	/>
+          <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/song_handle10"
+		android:gravity="center_horizontal"
+		android:textSize="12sp"/>    
+    </LinearLayout>
+	
+		 <LinearLayout 
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+		android:layout_weight="1"
+		android:layout_gravity="center">
+   <Button android:id="@+id/view_btn5"
+		android:layout_width="45.3dp"
+		android:layout_height="45.3dp"
+		android:layout_gravity="center_horizontal"
+		android:background="@drawable/new_delete_button"
+		 />
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/song_handle6"
+		android:gravity="center_horizontal"
+		android:textSize="12sp"/>    
+    </LinearLayout>
+	
+    </LinearLayout>
+   
+
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dialogid2"
+    android:orientation="vertical" 
+	android:background="#00000000">
+    
+	<EditText
+        android:id="@+id/edit_input2"
+        android:layout_width="250dip"
+        android:layout_height="wrap_content"
+		android:background="#00000000"
+		android:maxLength="25" 		
+        />
+    <Button
+        android:id="@+id/click_ok2"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:gravity="center_horizontal"
+         android:textSize="20sp"
+         android:text="@string/config" 
+		 android:visibility="gone"/>
+</LinearLayout>

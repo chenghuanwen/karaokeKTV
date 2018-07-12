@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout 
+        android:id="@+id/ll_titel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="139dp"
+        android:layout_marginLeft="36dp">
+        <TextView 
+		android:id="@+id/tv_search_1" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textColor="#fff"
+        android:textSize="12sp" />
+        <TextView
+        android:id="@+id/tv_search_count" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textColor="#fff"
+        android:textSize="12sp"
+       	/>
+        <TextView 
+		android:id="@+id/tv_search_2" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textColor="#fff"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+    </LinearLayout>
+	
+	<LinearLayout 
+	    android:id="@+id/tv_opration_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_marginTop="139dp"
+        android:layout_alignParentRight="true"
+		android:layout_marginRight="100dp">
+		 <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textColor="#fff"
+        android:textSize="12sp"
+		android:drawableRight="@drawable/caidanjian"
+		android:text="@string/reset_search_condition"/>
+		
+		<TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textColor="#fff"
+        android:textSize="18sp"
+		android:text="@string/reset_search_condition2"/>
+		
+	</LinearLayout>
+
+	
+    <FrameLayout 
+         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="18.7dp"
+        android:layout_marginRight="70dp"
+        android:layout_below="@+id/ll_titel"
+        android:layout_above="@+id/iv_pagedown">
+    <com.jsl.ktv.view.CustomeGridView 
+	    android:id="@+id/gv_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="2"
+        android:verticalSpacing="22dp"
+        android:horizontalSpacing="20dp"		
+		android:scrollbars="@null"
+		android:descendantFocusability="afterDescendants"
+        android:listSelector="@drawable/item_unfocus"></com.jsl.ktv.view.CustomeGridView >
+    <TextView 
+        android:id="@+id/tv_emptyview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/empty_songlist"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:gravity="center"/>
+    <ProgressBar 
+        android:id="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+    </FrameLayout>
+    <ImageView 
+        android:id="@+id/iv_pageup"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="139dp"
+        android:layout_alignParentRight="true"
+		 android:focusable="false"
+        android:layout_marginRight="49dp"
+        android:src="@drawable/scroll_up"/>
+     <ImageView 
+        android:id="@+id/iv_pagedown"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="28dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+		 android:focusable="false"
+        android:layout_marginRight="49dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/scroll_dowm"/>
+    
+
+</RelativeLayout>

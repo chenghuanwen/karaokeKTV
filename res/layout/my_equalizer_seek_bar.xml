@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="100dp"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    tools:context=".SoundMainActivity" >
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/aux_title"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="match_parent"
+        android:layout_above="@id/text_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/seekbar_bg" />
+
+    <com.jsl.ktv.audio.MyVerticalSeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@id/text_title"
+        android:layout_centerHorizontal="true"
+        android:maxHeight="3dp"
+        android:minHeight="3dp"
+		android:max="11"
+        android:progressDrawable="@drawable/po_seekbar"
+        android:thumb="@drawable/thumb_normal" />
+
+</RelativeLayout>

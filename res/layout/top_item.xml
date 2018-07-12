@@ -1,0 +1,24 @@
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+        android:layout_height="64dp"  
+        android:layout_width="fill_parent"  
+        android:paddingBottom="4dip"  
+        >  
+        <Button  
+            android:id="@+id/top_back"  
+            android:layout_height="61dp"  
+            android:layout_width="20dp"
+			android:layout_marginLeft="20px"
+			android:background="@drawable/btn_back_selecter" 
+            />  
+        <TextView  
+            android:id="@+id/top_info"  
+            android:layout_width="wrap_content"  
+            android:layout_height="wrap_content" 
+			android:layout_centerHorizontal="true"
+			android:layout_centerVertical="true"
+			android:textSize="30dp" 
+			android:maxEms="11"
+            android:singleLine="true"		
+            />  
+    </RelativeLayout>  

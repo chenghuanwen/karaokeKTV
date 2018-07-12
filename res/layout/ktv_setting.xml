@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="592dp"
+    android:id="@+id/dialogid"
+    android:orientation="vertical"
+    android:background="@drawable/kaiguanbeijing"> 
+	<TextView
+        android:id="@+id/setting_tittle"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+		android:textColor = "#ffffff" 
+		android:textSize ="30sp"
+		android:gravity="center"
+		android:layout_gravity ="center"
+		android:layout_marginTop="20dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center">	
+    
+	<TextView
+        android:id="@+id/pw_switch_tx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:textColor = "#ffffff" 
+		android:maxLength="25"
+		android:textSize ="20sp"		
+        />
+	<RadioGroup 
+	    android:layout_width="wrap_content"
+	    android:layout_height="42dp"
+	    android:orientation="horizontal"
+	    android:id="@+id/rg_pw">
+	    <RadioButton 
+	     android:id="@+id/pw_switch_on"
+         android:layout_width="41dp"
+         android:layout_height="41dp"       
+		 android:background="@drawable/setting_btn_selecter2"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "@drawable/btn_new_textcolor_selector"
+		 android:button="@null"
+		 android:gravity="center"
+		 android:text="@string/pw_on"/>
+	    
+	     <RadioButton 
+	     android:id="@+id/pw_switch_off"
+         android:layout_width="41dp"
+         android:layout_height="41dp"
+		 android:background="@drawable/setting_btn_selecter2"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "@drawable/btn_new_textcolor_selector"
+		 android:button="@null"
+		 android:gravity="center"
+		 android:text="@string/pw_off" 
+		 android:layout_marginLeft="20dp"/>
+	    
+	
+  <!--   <Button
+         android:id="@+id/pw_switch"
+		 android:layout_toRightOf ="@+id/pw_switch_tx"
+         android:layout_width="200dip"
+         android:layout_height="40dp"
+         android:layout_marginRight="10dp"
+		 android:background="@drawable/btn_key_selecter"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "#ffffff" 
+		 />--> 
+		 </RadioGroup>
+</LinearLayout>
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center">	
+    
+	<TextView
+        android:id="@+id/sg_switch_tx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:textColor = "#ffffff" 
+		android:maxLength="25"
+		android:textSize ="20sp"	
+        />
+	<RadioGroup 
+	    android:layout_width="wrap_content"
+	    android:layout_height="42dp"
+	    android:orientation="horizontal"
+	    android:id="@+id/rg_sg">
+	    <RadioButton 
+	     android:id="@+id/sg_switch_on"
+         android:layout_width="41dp"
+         android:layout_height="41dp"
+		 android:background="@drawable/setting_btn_selecter2"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "@drawable/btn_new_textcolor_selector"
+		 android:button="@null"
+		 android:text="@string/pw_on"
+		 android:gravity="center"
+		/>
+	    
+	     <RadioButton 
+	     android:id="@+id/sg_switch_off"
+         android:layout_width="41dp"
+         android:layout_height="41dp"
+		 android:background="@drawable/setting_btn_selecter2"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "@drawable/btn_new_textcolor_selector"
+		 android:button="@null"
+		 android:text="@string/pw_off"
+		 android:gravity="center"
+		 android:layout_marginLeft="20dp"/>
+  <!--    <Button
+         android:id="@+id/sg_switch"
+		 android:layout_toRightOf ="@+id/sg_switch_tx"
+         android:layout_width="200dip"
+         android:layout_height="40dp"
+         android:layout_marginRight="10dp"
+		 android:background="@drawable/btn_key_selecter"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "#ffffff" 
+		 />-->
+     </RadioGroup>
+</LinearLayout>
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+		android:visibility="visible">	
+    
+	<TextView
+        android:id="@+id/pf_switch_tx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:textColor = "#ffffff" 
+		android:maxLength="25"
+		android:textSize ="20sp"	
+        />
+		<RadioGroup 
+	    android:layout_width="wrap_content"
+	    android:layout_height="42dp"
+	    android:orientation="horizontal"
+	    android:id="@+id/rg_pf">
+	    <RadioButton 
+	     android:id="@+id/pf_switch_on"
+         android:layout_width="41dp"
+         android:layout_height="41dp"
+		 android:background="@drawable/setting_btn_selecter2"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor ="@drawable/btn_new_textcolor_selector"
+		 android:button="@null" 
+		 android:text="@string/pw_on"
+		 android:gravity="center"
+		 />
+	    
+	     <RadioButton 
+	     android:id="@+id/pf_switch_off"
+         android:layout_width="41dp"
+         android:layout_height="41dp"
+		 android:background="@drawable/setting_btn_selecter2"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "@drawable/btn_new_textcolor_selector"
+		 android:button="@null"
+		 android:text="@string/pw_off"
+		 android:gravity="center"
+		 android:layout_marginLeft="20dp"/>
+   <!--  <Button
+         android:id="@+id/pf_switch"
+		 android:layout_toRightOf ="@+id/pf_switch_tx"
+         android:layout_width="200dip"
+         android:layout_height="40dp"
+         android:layout_marginRight="10dp"
+		 android:background="@drawable/btn_key_selecter"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "#ffffff" 
+		 /> -->
+    </RadioGroup>
+</LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center">	
+    
+	<TextView
+        android:id="@+id/pmd_switch_tx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:textColor = "#ffffff" 
+		android:maxLength="25"
+		android:textSize ="20sp"		
+        />
+	<RadioGroup 
+	    android:layout_width="wrap_content"
+	    android:layout_height="42dp"
+	    android:orientation="horizontal"
+	    android:id="@+id/rg_pmd">
+	    <RadioButton 
+	     android:id="@+id/pmd_switch_on"
+         android:layout_width="41dp"
+         android:layout_height="41dp"       
+		 android:background="@drawable/setting_btn_selecter2"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "@drawable/btn_new_textcolor_selector"
+		 android:button="@null"
+		 android:gravity="center"
+		 android:text="@string/pw_on"/>
+	    
+	     <RadioButton 
+	     android:id="@+id/pmd_switch_off"
+         android:layout_width="41dp"
+         android:layout_height="41dp"
+		 android:background="@drawable/setting_btn_selecter2"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "@drawable/btn_new_textcolor_selector"
+		 android:button="@null"
+		 android:gravity="center"
+		 android:text="@string/pw_off" 
+		 android:layout_marginLeft="20dp"/>
+	    
+	
+  <!--   <Button
+         android:id="@+id/pw_switch"
+		 android:layout_toRightOf ="@+id/pw_switch_tx"
+         android:layout_width="200dip"
+         android:layout_height="40dp"
+         android:layout_marginRight="10dp"
+		 android:background="@drawable/btn_key_selecter"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "#ffffff" 
+		 />--> 
+		 </RadioGroup>
+</LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center">	
+    
+	<TextView
+        android:id="@+id/logo_switch_tx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:textColor = "#ffffff" 
+		android:maxLength="25"
+		android:textSize ="20sp"		
+        />
+	<RadioGroup 
+	    android:layout_width="wrap_content"
+	    android:layout_height="42dp"
+	    android:orientation="horizontal"
+	    android:id="@+id/rg_logo">
+	    <RadioButton 
+	     android:id="@+id/logo_switch_on"
+         android:layout_width="41dp"
+         android:layout_height="41dp"       
+		 android:background="@drawable/setting_btn_selecter2"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "@drawable/btn_new_textcolor_selector"
+		 android:button="@null"
+		 android:gravity="center"
+		 android:text="@string/pw_on"/>
+	    
+	     <RadioButton 
+	     android:id="@+id/logo_switch_off"
+         android:layout_width="41dp"
+         android:layout_height="41dp"
+		 android:background="@drawable/setting_btn_selecter2"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "@drawable/btn_new_textcolor_selector"
+		 android:button="@null"
+		 android:gravity="center"
+		 android:text="@string/pw_off" 
+		 android:layout_marginLeft="20dp"/>
+	    
+	
+  <!--   <Button
+         android:id="@+id/pw_switch"
+		 android:layout_toRightOf ="@+id/pw_switch_tx"
+         android:layout_width="200dip"
+         android:layout_height="40dp"
+         android:layout_marginRight="10dp"
+		 android:background="@drawable/btn_key_selecter"
+         android:textSize="20sp"
+		 android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "#ffffff" 
+		 />--> 
+		 </RadioGroup>
+</LinearLayout>
+
+
+
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:layout_marginLeft="50dp">	
+    
+	<TextView
+        android:id="@+id/boot_audio_tx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:textColor = "#ffffff" 
+		android:maxLength="25"
+		android:textSize ="20sp"	
+        />
+    <Button
+         android:id="@+id/audio_down"
+         android:layout_width="41dp"
+         android:layout_height="41dp"
+		 android:layout_toRightOf ="@+id/boot_audio_tx"
+		 android:background="@drawable/btn_key_selecter3"
+         android:textSize="20sp"
+          android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "@drawable/btn_new_textcolor_selector"
+		 android:text="@string/down"/>
+	<TextView
+        android:id="@+id/audio_num"
+        android:layout_width="wrap_content"
+		 android:layout_toRightOf ="@+id/audio_up"
+        android:layout_height="wrap_content"
+		android:gravity ="center"
+		android:textColor = "#ffffff" 
+		android:maxLength="25"
+		android:textSize ="20sp"	
+        android:layout_centerVertical="true"/>
+    <Button
+         android:id="@+id/audio_up"
+         android:layout_width="41dp"
+         android:layout_height="41dp"
+		 android:layout_toRightOf ="@+id/audio_down"
+		 android:background="@drawable/btn_key_selecter3"
+         android:textSize="20sp"
+          android:focusable="true"
+		 android:focusableInTouchMode="true" 
+		 android:textColor = "@drawable/btn_new_textcolor_selector"
+		 android:text="@string/up"
+		 android:layout_marginLeft="20dp"/>
+</RelativeLayout>
+<RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+		android:visibility="gone">	
+    
+	<TextView
+        android:id="@+id/open_start_tx"
+        android:layout_width="250dip"
+        android:layout_height="wrap_content"
+		android:textColor = "#ffffff" 
+		android:maxLength="25"
+		android:textSize ="20sp"		
+        android:visibility="gone"/>
+    <Button
+         android:id="@+id/open_start_l"
+         android:layout_width="wrap_content"
+         android:layout_height="40dp"
+		 android:layout_toRightOf ="@+id/open_start_tx"
+		 android:background="@drawable/setting_btn_selecter"
+         android:textSize="30sp"
+		 android:textColor = "#ffffff"
+		 android:text="@string/left"
+		 android:visibility="gone"/>
+	<TextView
+        android:id="@+id/open_start"
+        android:layout_width="100dip"
+		android:layout_toRightOf ="@+id/open_start_l"
+        android:layout_height="wrap_content"
+		android:gravity ="center"
+		android:textColor = "#ffffff" 
+		android:maxLength="25"
+		android:textSize ="20sp"		
+        android:paddingTop="10dp"
+		android:visibility="gone"/>
+    <Button
+         android:id="@+id/open_start_r"
+         android:layout_width="wrap_content"
+         android:layout_height="40dp"
+		 android:layout_toRightOf ="@+id/open_start"
+         android:layout_marginRight="10dp"
+		 android:background="@drawable/setting_btn_selecter"
+         android:textSize="30sp"
+		 android:textColor = "#ffffff"
+		 android:text="@string/right"
+		android:visibility="gone"
+		 />
+</RelativeLayout>
+ <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"> 
+</RelativeLayout>
+
+	<TextView
+        android:id="@+id/message_scoll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:textColor = "#ffffff" 
+		android:textSize ="20sp"
+		android:layout_gravity ="center"
+        />
+	
+	    <EditText
+        android:id="@+id/scoll_input"
+		android:background="@drawable/edit_input_selecter"
+        android:layout_width="270dp"
+        android:layout_height="41dp"
+		android:layout_gravity ="center_horizontal"
+		android:textColor = "#333333" 
+		android:maxLength="30" 	
+		android:paddingLeft="10dp"
+		/>
+
+    <Button
+         android:id="@+id/setting_save"
+         android:layout_width="90dp"
+         android:layout_height="40dp"
+         android:layout_gravity="center_horizontal"
+         android:textSize="20sp"
+         android:textColor="#fff"
+         android:layout_marginTop="20dp"
+         android:layout_marginBottom="20dp"
+		 android:background="@drawable/button_save_selecter"
+		 />		
+		
+	
+	
+		 
+</LinearLayout>

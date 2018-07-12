@@ -1,0 +1,36 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/animation_button"
+    android:layout_width="match_parent"
+    android:focusable="false"
+    android:layout_height="match_parent" >
+
+    <com.jsl.ktv.view.MyViewPager
+        android:id="@+id/animation_swi_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="12dp"
+        android:focusable="false"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/animation_swi_text"
+        style="@style/TextOnMainLayout_new"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_gravity="bottom"
+        android:layout_margin="12dp"
+        android:focusable="false"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/animation_swi_bk_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        android:src="@drawable/background_focus"
+        android:focusable="false"
+        android:visibility="gone" />
+
+</FrameLayout>

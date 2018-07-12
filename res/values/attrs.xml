@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="MyGallery">
+        <attr name="android:galleryItemBackground" />
+    </declare-styleable>
+<!-- Defines the custom XML attributes supported for a HorizontalListView -->
+    <declare-styleable name="HorizontalListView">
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="android:divider" />
+        <attr name="android:requiresFadingEdge" />
+        <attr name="android:fadingEdgeLength" />
+    </declare-styleable>
+	 <declare-styleable name="Sound">
+        <attr name="text" format="reference" />
+        <attr name="normalImage" format="reference" />
+        <attr name="selectImage" format="reference" />
+        <attr name="maxProgress" format="integer" />
+        <attr name="minProgress" format="integer" />
+    </declare-styleable>
+
+</resources>

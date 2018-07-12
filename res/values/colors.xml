@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="blue">#0000ff</color>
+    <color name="dark">#B2B2B2</color>
+    <color name="green">#00FE00</color>
+    <color name="gray">#FF8b8b8b</color>
+    <!-- <color name="detail_point">#ffaa00</color> -->
+    <color name="detail_point">#808080</color>
+    <color name="detail_main_text">#999999</color>
+    <color name="black">#000</color>
+    <color name="red">#FF0000</color>
+    <color name="blue_user">#00a8ff</color>
+    <color name="dark_404040">#404040</color>
+    <color name="red_ty">#ff0000</color>
+    <color name="bg_color">#FF666666</color>
+    <color name="my_item_color">#ff0000</color>
+    <color name="default_bg">#979b9a</color>
+    <color name="transparent">#00ffffff</color>
+	
+    <color name="baifen">#fff2df</color><!-- 白粉 -->
+	<color name="chenghuang">#ffa400</color><!-- 橙黄 -->
+	<color name="conglv">#9ed900</color><!-- 葱绿 -->
+	<color name="hupo">#ca6924</color><!-- 琥珀 -->
+	<color name="zise">#cca4e3</color><!-- 紫色 -->
+	<color name="lan">#44cef6</color><!-- 蓝 -->
+	<color name="an">#41555d</color><!-- 黯 -->
+    <color name="translucent">#e0000000</color>
+	
+	
+    <color name="orange">#FF8000</color><!--  -->
+	<color name="yellow">#FFFF00</color><!--  -->
+	<color name="purple">#8000FF</color><!--  -->
+</resources>

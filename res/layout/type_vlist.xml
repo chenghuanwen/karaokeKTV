@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="70.0dip"
+    android:drawingCacheQuality="high"
+    android:minHeight="70.0dip"
+    android:orientation="horizontal" 
+	android:descendantFocusability="afterDescendants"
+	>
+    <Button
+		android:id="@+id/type_title" 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:gravity="center_vertical"
+		android:textStyle="bold"
+		android:background="@drawable/type_list_selecter"
+		android:textSize="20.0sp"
+        android:paddingLeft ="65dp" 
+		android:textColor="@color/white"
+		android:layout_centerVertical="true"
+		android:nextFocusLeft="@+id/type_sItemIcon"/>
+	<ImageView
+        android:id="@+id/type_sItemIcon"
+        android:layout_width="10dip"
+		android:layout_height="10dip"
+		android:focusable = "true"
+		android:layout_centerHorizontal="true"
+		android:layout_centerVertical="true"
+		android:visibility="gone"/>
+</RelativeLayout>

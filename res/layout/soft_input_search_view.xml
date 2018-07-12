@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <TextView 
+        android:id="@+id/et_input"
+        android:layout_width="375dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="8dp"
+		android:paddingLeft="20dp"
+		android:textColor="#fff"
+		android:textSize="20sp"
+		android:gravity="center"
+		android:maxLength="15"
+        android:background="@drawable/edit_input_background"
+        android:layout_gravity="center_horizontal"/>
+    <GridView 
+        android:id="@+id/gv_input"
+        android:layout_width="383dp"
+        android:layout_height="186dp"
+        android:numColumns="7"
+        android:layout_marginLeft="18.7dp"
+        android:layout_marginRight="18.7dp"
+        android:horizontalSpacing="14dp"
+        android:verticalSpacing="2px"
+		
+		android:focusable="false"></GridView>
+    
+
+</LinearLayout>
