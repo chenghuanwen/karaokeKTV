@@ -3,27 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants" >
     <ImageView
         android:id="@+id/iv_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="11dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+      	android:focusable="true"
+      	android:src="@drawable/b"
 />
-	<ImageView
-        android:id="@+id/singer_bk_image"
-        android:layout_width="131dp"
-        android:layout_height="131dp"
-        android:layout_marginTop="-118dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/singer_scale"
-		android:visibility="gone"	/>	
+	
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:textColor="#fff"
+        android:gravity="center"
        />
 
 </LinearLayout>

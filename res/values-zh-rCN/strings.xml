@@ -91,6 +91,7 @@
     <string name="song_handle8">一键全点</string>
     <string name="song_handle9">分享</string>
     <string name="song_handle10">暂停</string>
+     <string name="song_handle11">继续下载</string>
     <string name="song_all_add_ok">全点完成！</string>
     <string name="score_titel">评分成绩单</string>
     <string name="score_sing">演唱得分:</string>
@@ -255,4 +256,15 @@
     <string name="next_play">下一曲播放</string>
     <string name="exit_tip">连按两次退出</string>
 	<string name="waiting_for_song">请点歌...</string>
+	
+	<string name="download_failed">下载失败</string>
+	<string name="Inspection_failed">校验失败</string>
+	<string name="File_does_not_exist">文件不存在</string>
+	<string name="The_disk_is_full">磁盘已满</string>
+	<string name="MAC_is_not_opened">MAC未开通</string>
+	<string name="wait_loading">等待下载</string>
+	<string name="Detected_update">检测到更新</string>	
+	<string name="update_now">立即更新</string>
+	<string name="update_next">下次更新</string>
+	 <string name="down_fail_play">下载失败，播放默认歌曲!</string>
 </resources>

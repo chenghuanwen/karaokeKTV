@@ -62,7 +62,7 @@ public class Sound_effect_dialog extends Dialog implements
 				Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 		lp.width = 1000; // 宽度
 		lp.height = 900; // 高度
-		lp.alpha = 1.0f; // 透明�?
+		lp.alpha = 1.0f; // 透明
 
 		// this.getWindow().setType(android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
 		this.getWindow().setAttributes(lp);

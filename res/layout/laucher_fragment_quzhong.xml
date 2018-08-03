@@ -184,10 +184,9 @@
        <com.jsl.ktv.view.AnimationButton
             android:id="@+id/button_23"
             style="@style/LButton2"
-            android:layout_marginTop="-12dp"
-            android:layout_toRightOf="@id/button_19"
-            android:layout_marginLeft="-12dp"
-            android:layout_below="@id/button_22"  />	
+            android:layout_marginTop="139dp"
+            android:layout_toRightOf="@id/button_22"
+            android:layout_marginLeft="-12dp"  />	
 			
        			
         

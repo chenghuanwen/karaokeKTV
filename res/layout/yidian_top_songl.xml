@@ -1,0 +1,36 @@
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+        android:layout_height="55dp"  
+        android:layout_width="420dp"  
+        android:paddingBottom="4dip"  
+        >
+		<ImageView
+        android:id="@+id/music_3"
+        android:layout_width="34dp"
+		android:layout_height="34dp"
+		android:layout_marginLeft="12dp"
+		android:layout_marginTop="16dp"
+		android:focusable = "false"
+		android:background="@drawable/music_3"/> 
+        <com.jsl.ktv.view.MarqueeTextView  
+            android:id="@+id/top_info"  
+            android:layout_width="wrap_content"  
+            android:layout_height="45dp" 
+			 android:layout_weight="1"
+            android:ellipsize="marquee"
+			android:gravity="center_vertical"
+			android:textSize="24dp" 
+			android:maxEms="11"
+			android:layout_marginLeft="10dp"
+			android:layout_marginTop="10dp"
+            android:singleLine="true"		
+            android:background="@null"
+            />  		
+        <Button  
+            android:id="@+id/top_back"  
+            android:layout_height="49dp"  
+            android:layout_width="97dp"
+			android:layout_marginTop="7dp"
+			android:background="@drawable/btn_yd_selecter" 
+            /> 
+    </LinearLayout>  

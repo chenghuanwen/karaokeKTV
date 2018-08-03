@@ -17,6 +17,7 @@ import com.jsl.ktv.adapter.SongNameSearchAdapter;
 import com.jsl.ktv.adapter.SongNameSearchAdapter.OnMoreClickListener;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -30,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.player.boxplayer.karaok.JNILib;
+import com.jsl.ktv.karaok.MainActivity;
 import com.jsl.ktv.karaok.VideoString;
 import com.jsl.ktv.karaok.MoreOptionDialog;
 import android.view.Window;
@@ -91,7 +93,7 @@ public class RecommendSongNameFragment extends CommonFragment implements
 	private static List<String> songIds;
 	private static StringBuffer sbArg;
 	private ProgressBar pb;
-	private static Activity activity;
+	private static MainActivity activity;
 	
 	public RecommendSongNameFragment() {
 	};
@@ -116,9 +118,8 @@ public class RecommendSongNameFragment extends CommonFragment implements
 		// TODO Auto-generated method stub
 		myReciver = new MyReciver();
 		IntentFilter filter = new IntentFilter();
-		filter.addAction("justlink.action.intent.songlist_focus");
+		filter.addAction("justlink.action.intent.data_inited_outside_order");
 		filter.addAction("justlink.action.intent.refresh_searchcount");
-		filter.addAction("justlink.action.intent.refresh_listpage");
 		getActivity().registerReceiver(myReciver, filter);
 		
 	}
@@ -209,23 +210,6 @@ public class RecommendSongNameFragment extends CommonFragment implements
 
 			}
 		});
-
-
-		mAdapter.setMoreClickListener(new OnMoreClickListener() {
-
-			@Override
-			public void onMoreClickListener(String number, String orderId) {
-				// TODO Auto-generated method stub
-				showMoreOptionDialog(number, orderId);
-			}
-
-			@Override
-			public void onRecordOption(SongSearchBean song) {
-				recordSong = song;
-				showMoreOptionDialog(song.getSongNumber(), song.getOrderId());
-			}
-		});
-
 	
 
 		NetDataParseUtil.getIntance().getRecommendOrRankSongList(orderId, new RecommendOrRankSongListLoadListener() {
@@ -238,12 +222,15 @@ public class RecommendSongNameFragment extends CommonFragment implements
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						pb.setVisibility(View.GONE);
 						songIds = ids;
-						if(ids != null)
+						if(ids!=null && MyApplication.isDataInit){
+						pb.setVisibility(View.GONE);
 						mAdapter.refresh(SongJsonParseUtils.getRecommendOrRankSongs(createRequstString(subArray(songIds, 0))));		
 						tvTitelCount.setText(MyApplication.currentSinger + "/"
 								+ SongJsonParseUtils.getSearchKey() + getPageInfo());
+						
+						}
+						
 					}
 				});
 				
@@ -344,10 +331,13 @@ public class RecommendSongNameFragment extends CommonFragment implements
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		activity = getActivity();
+		activity = (MainActivity) getActivity();
+		activity.recommendSongNameFragment = this;
 		mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_HIDE_SEARCHVIEW);
 		currentPage = 1;
-		MyApplication.isSongNameFragment = true;
+		list_start = 0;
+		MyApplication.isRecommendFragment = true;
+		MyApplication.currentSinger = getResources().getString(R.string.home_4);
 	}
 
 	@Override
@@ -361,6 +351,8 @@ public class RecommendSongNameFragment extends CommonFragment implements
 	public void onItemSelected(AdapterView<?> arg0, View view, int position,
 			long arg3) {
 		Log.i("song", "select position==" + position);
+		
+		
 	//	setClassState();
 		currentPosition = position;
 		MyApplication.currentItemPosition = position;
@@ -393,7 +385,7 @@ public class RecommendSongNameFragment extends CommonFragment implements
 		super.onStop();
 		// Log.i("song","onstop =======");
 		MyApplication.isGridviewFocus = false;
-		MyApplication.isSongNameFragment = false;
+		MyApplication.isRecommendFragment = false;
 		MyApplication.currentSinger = "";
 		MyApplication.currentSingerNum = "";
 		mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_HIDE_SEARCHVIEW);
@@ -423,6 +415,13 @@ public class RecommendSongNameFragment extends CommonFragment implements
 					.getAction())) {
 				list_start = 0;
 				currentPage = 1;
+			}else if("justlink.action.intent.data_inited_outside_order".equals(arg1.getAction())){//数据初始化完成后刷新网络推荐歌单
+				 Log.i("song","receive boardcast for refresh netdata=====");
+				pb.setVisibility(View.GONE);
+				if(songIds != null)
+				mAdapter.refresh(SongJsonParseUtils.getRecommendOrRankSongs(createRequstString(subArray(songIds, 0))));		
+				tvTitelCount.setText(MyApplication.currentSinger + "/"
+						+ SongJsonParseUtils.getSearchKey() + getPageInfo());
 			}
 		}
 
@@ -433,7 +432,7 @@ public class RecommendSongNameFragment extends CommonFragment implements
 		// Log.i("song", "====JSL==== fragment onKeyup= "+keyCode);
 		if (keyCode == 20 || keyCode == 19) {
 			MyApplication.isNeedRefresh = true;
-			if (mAdapter != null && MyApplication.isSongNameFragment
+			if (mAdapter != null && MyApplication.isRecommendFragment
 					&& MyApplication.isOnkeyupRefresh)
 				mAdapter.notifyDataSetChanged();
 			// Log.i("song","松开刷新==========");
@@ -443,21 +442,21 @@ public class RecommendSongNameFragment extends CommonFragment implements
 
 	public static boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		Log.i("song", "fragment onkeydown==" + keyCode + "==" + currentPosition);
+		Log.i("song", "recommend fragment onkeydown==" + keyCode + "==" + currentPosition);
 
 		if (MyApplication.isPipFocus && mHandler != null) {
 			left_right_count = 0;
 			// mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_RESET_YIDIAN_BUTTON_FOCUS);
 		}
 		if (keyCode == event.KEYCODE_DPAD_DOWN
-				&& MyApplication.isSongNameFragment) {
+				&& MyApplication.isRecommendFragment) {
 			offestTime = System.currentTimeMillis() - firstKeyTime;
 			if (offestTime > 1000) {
 				MyApplication.isNeedRefresh = true;
-				Log.i("song", "set need refresh true");
+			//	Log.i("song", "set need refresh true");
 			} else {
 				MyApplication.isNeedRefresh = false;
-				Log.i("song", "set need refresh false");
+				//Log.i("song", "set need refresh false");
 			}
 			firstKeyTime = System.currentTimeMillis();
 			MyApplication.isOnkeyupRefresh = false;
@@ -472,7 +471,7 @@ public class RecommendSongNameFragment extends CommonFragment implements
 					&& MyApplication.isGridviewFocus) {
 				if (( list_start+8 >= NetDataParseUtil.getIntance()
 								.getTotalCount() && !MyApplication.isSelectAll)
-						&& MyApplication.isSongNameFragment) {
+						&& MyApplication.isRecommendFragment) {
 					//Log.i("song", "last page tip ========");
 					Message msg = Message.obtain();
 					msg.what = FragmentMessageConstant.FRAGMENT_MESSAGE_TOAST_TIP;
@@ -513,7 +512,7 @@ public class RecommendSongNameFragment extends CommonFragment implements
 				activity.sendBroadcast(new Intent("justlink.action.intent.refresh_searchcount"));
 				// mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_TOPBUTTON_FOCUS);
 			} else if (list_start == 0 && mHandler != null
-					&& MyApplication.isSongNameFragment) {
+					&& MyApplication.isRecommendFragment) {
 				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_RESET_TOPBUTTON_FOCUS);
 				currentPosition = 0;
 				 Log.i("song","song name reset top focus==========");
@@ -532,7 +531,7 @@ public class RecommendSongNameFragment extends CommonFragment implements
 				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);
 			if (MyApplication.isSearchViewShow
 					&& (MyApplication.currentItemPosition == 4 || MyApplication.currentItemPosition == 6)
-					&& MyApplication.isSongNameFragment) {
+					&& MyApplication.isRecommendFragment) {
 				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_FOCUS_SEARCHVIEW);
 				MyApplication.currentItemPosition = 0;
 				MyApplication.isOnkeyupRefresh = false;

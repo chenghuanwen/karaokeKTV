@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -24,7 +25,9 @@ import com.jsl.ktv.bean.SongSearchBean;
 import android.view.View.OnFocusChangeListener;
 import android.util.Log;
 import android.view.View.OnClickListener;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -50,7 +53,7 @@ public class SongNameSearchAdapter extends BaseAdapter {
 	private int currentPosition;
 	private Handler mHandler;
 	private int itemType;
-	private int downloadProgress;
+	private int downloadProgress,downloadState;
 	private View firstRefreshView;
 	public DownloadThread downloadThread;
 	private Handler uiHandler;
@@ -61,7 +64,7 @@ public class SongNameSearchAdapter extends BaseAdapter {
 	private static final int ENTER_TYPE_COLLECTION = 5;//收藏
 	private static final int ENTER_TYPE_HAS_SELECTED = 6;//已点
 	
-	
+	private Uri uri;
 	
 	
 	public SongNameSearchAdapter(Context mContext,ArrayList<SongSearchBean> mDatas,Handler handler) {
@@ -373,7 +376,7 @@ public class SongNameSearchAdapter extends BaseAdapter {
 					// TODO Auto-generated method stub
 					if(arg2.getAction()==KeyEvent.ACTION_DOWN){
 						if(arg2.getKeyCode()==82){
-							mClickListener.onMoreClickListener(searchBean3.getSongNumber(),searchBean3.getOrderId());
+							mClickListener.onMoreClickListener(searchBean3.getSongNumber(),searchBean3.getOrderId(),0);
 							return true;
 						}
 					}
@@ -461,7 +464,7 @@ public class SongNameSearchAdapter extends BaseAdapter {
 					// TODO Auto-generated method stub
 					if(arg2.getAction()==KeyEvent.ACTION_DOWN){
 						if(arg2.getKeyCode()==82){
-							mClickListener.onMoreClickListener(searchBean4.getSongNumber(),searchBean4.getOrderId());
+							mClickListener.onMoreClickListener(searchBean4.getSongNumber(),searchBean4.getOrderId(),searchBean4.getDownSta());
 							return true;
 						}
 					}
@@ -569,7 +572,7 @@ public class SongNameSearchAdapter extends BaseAdapter {
 					int status = SongJsonParseUtils.selectSong("song_select", searchBean.getSongNumber(), 0, "");
 					
 					if(status==0){
-						Toast.makeText(mContext, mContext.getResources().getString(R.string.list_full), Toast.LENGTH_SHORT).show();	
+						Toast.makeText(mContext, mContext.getResources().getString(R.string.opration_fail), Toast.LENGTH_SHORT).show();	
 					}else if(status ==1){
 						if(searchBean.isCloud()){
 							Toast.makeText(mContext,"add to download list！", Toast.LENGTH_SHORT).show();
@@ -599,7 +602,7 @@ public class SongNameSearchAdapter extends BaseAdapter {
 					// TODO Auto-generated method stub
 					if(arg2.getAction()==KeyEvent.ACTION_DOWN){
 						if(arg2.getKeyCode()==82){					
-							mClickListener.onMoreClickListener(searchBean.getSongNumber(),searchBean.getOrderId());
+							mClickListener.onMoreClickListener(searchBean.getSongNumber(),searchBean.getOrderId(),0);
 							return true;
 						}
 					}
@@ -608,10 +611,8 @@ public class SongNameSearchAdapter extends BaseAdapter {
 			});
 			
 			break;
-		}
-		
-	
-		
+		}		
+			
 		return contentView;
 	}
 	
@@ -705,10 +706,7 @@ public class SongNameSearchAdapter extends BaseAdapter {
         return newBmp;  
     }
 	
-    
-    
-    
-    
+  
     public void refresh(ArrayList<SongSearchBean> datas){
 		//Log.i("song","refresh === "+datas.size());
     	mDatas.clear();
@@ -719,7 +717,7 @@ public class SongNameSearchAdapter extends BaseAdapter {
 	
     
     public interface OnMoreClickListener{
-    	void onMoreClickListener(String number,String orderId);
+    	void onMoreClickListener(String number,String orderId,int downstat);
 		void onRecordOption(SongSearchBean song);
     }
     
@@ -765,6 +763,7 @@ public class SongNameSearchAdapter extends BaseAdapter {
 	   
 	   
 	   public class DownloadThread extends Thread{
+		   private int temProgress;
 		   @Override
 		public void run() {
 			// TODO Auto-generated method stub
@@ -773,11 +772,19 @@ public class SongNameSearchAdapter extends BaseAdapter {
 				String json = JNILib.getSongDownPercent();
 				Log.i("song","download percent==="+json);
 				try {
-					if(json != null){
+					if(json!=null && json.contains("down_percent")){
 						JSONObject object = new JSONObject(json);
 						downloadProgress = object.getInt("down_percent");
-						refreshItemView(downloadProgress);
+						downloadState = object.getInt("cloud_status");
+						if(downloadProgress==0){
+							temProgress = downloadProgress;
+							refreshItemView(downloadProgress,downloadState);
+						}else{
+							refreshItemView(downloadProgress,temProgress);
+						}
+						
 					}else{
+						MyApplication.isShowDownloadProgress = false;
 						//MyApplication.isShowDownloadProgress = false;
 						uiHandler.post(new Runnable() {
 							
@@ -788,15 +795,15 @@ public class SongNameSearchAdapter extends BaseAdapter {
 								mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_REFRESH_YIDIAN_LIST);			
 							}
 						});
-					
-					SystemClock.sleep(1000);
 					}
+					SystemClock.sleep(1000);
 					
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
+					Log.i("song","downloadProgress error======="+e.toString());
 					e.printStackTrace();
 				}
-			//	Log.i("song","downloadProgress======="+JNILib.getSongDownPercent());
+			
 				
 			}
 			super.run();
@@ -806,16 +813,42 @@ public class SongNameSearchAdapter extends BaseAdapter {
 	   
 	   
 	   //刷新某一条item
-		private void refreshItemView(final int downloadProgress) {
+		private void refreshItemView(final int downloadProgress,final int status) {
 			// TODO Auto-generated method stub
 			uiHandler.post(new Runnable() {
 				
 				@Override
 				public void run() {
+					Log.i("song","refresh down progress==="+downloadProgress+"=="+firstRefreshView);
 					// TODO Auto-generated method stub
 					if(firstRefreshView != null){
 						Viewholder_Record holder = (Viewholder_Record) firstRefreshView.getTag();
-						holder.tvProgress.setText(mContext.getResources().getString(R.string.on_loading)+downloadProgress+"%");
+						if(status==0){
+							if(downloadProgress>1)
+							holder.tvProgress.setText(mContext.getResources().getString(R.string.on_loading)+downloadProgress+"%");	
+						}else if(status == -10){//文件校验失败
+							holder.tvProgress.setText(mContext.getResources().getString(R.string.Inspection_failed));
+							MyApplication.isShowDownloadProgress = false;
+						}else if(status == -2){//文件不存在
+							holder.tvProgress.setText(mContext.getResources().getString(R.string.File_does_not_exist));
+							MyApplication.isShowDownloadProgress = false;
+							
+						}else if(status == -8){//暂停
+							holder.tvProgress.setText(mContext.getResources().getString(R.string.song_handle10));
+							MyApplication.isShowDownloadProgress = false;
+							
+						}else if(status == -3){//空间不足
+							holder.tvProgress.setText(mContext.getResources().getString(R.string.The_disk_is_full));
+							MyApplication.isShowDownloadProgress = false;
+							
+						}else if(status == -5){//MAC 地址校验失败
+							holder.tvProgress.setText(mContext.getResources().getString(R.string.MAC_is_not_opened));
+							MyApplication.isShowDownloadProgress = false;
+							
+						}else {
+							holder.tvProgress.setText(mContext.getResources().getString(R.string.download_failed));
+							MyApplication.isShowDownloadProgress = false;
+						}						
 						}
 				}
 			});

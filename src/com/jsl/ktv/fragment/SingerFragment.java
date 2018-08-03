@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.jsl.ktv.bean.SingerSearchBean;
 import com.jsl.ktv.constant.FragmentMessageConstant;
+import com.jsl.ktv.util.SongJsonParseUtils;
+import com.jsl.ktv.view.AnimationImageView;
 import com.jsl.ktv.view.MyApplication;
 
 import android.text.TextUtils;
@@ -14,9 +16,11 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.Instrumentation;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ComponentName;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
@@ -39,6 +43,7 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -116,7 +121,7 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 	private LayoutInflater minflater;
 	private static ArrayList<SingerSearchBean> Datas;
 	private static Handler mHandler;
-	private static int currentPosition = 0;
+	private static int currentPosition = 0,currentPage = 1;
 	private static String searchKey = "";
 	private static int list_start = 0;
 	// private GridView item_pick;
@@ -129,7 +134,7 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 	// private boolean isNeedRefresh = true;
 	int layType = 0;
 	//private static final String baseNetPath = "http://www2.jiashilian.com/index.php?s=/Home/Index/imgPath";
-	private static final String baseNetPath = "http://api.jiashilian.com/Api/download/picture";
+	private static final String baseNetPath = "http://api.jiashilian.com:8888/Api/download/picture";
 	private static final String baseSavePath = "/mnt/sdcard/jlink/picture/";
 	private OkHttpClient okHttpClient;
 	private Handler uiHandler;
@@ -137,7 +142,10 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 	private Button btnSingerAll, btnSinger1, btnSinger2, btnSinger3,
 			btnSinger4, btnSinger5, btnSinger6, btnSinger7, btnSinger8,
 			btnSinger9, btnSinger10, btnSinger11;
-
+	private MyReceiver myReciver;
+	private ProgressBar pb;
+	private static int currentCount=0;
+	private static int startCount =0;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -173,7 +181,16 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 		initView(myview);
 		return myview;
 	}
+	
 
+	
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		registReciver();
+	}
+	
 	@SuppressLint("NewApi")
 	@Override
 	public void onResume() {
@@ -182,6 +199,7 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 		MyApplication.isSingerFragment = true;
 		list_start = 0;
 		recoverCount = 0;
+		currentPage = 1;
 		mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_SHOW_SEARCHVIEW);
 		mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_FOCUS_SEARCHVIEW);
 		singerIcons.clear();
@@ -206,9 +224,21 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 		mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_CLEAR_SEARCHVIEW);
 		MyApplication.isSingerListFocus = false;
 		MyApplication.isSingerFragment = false;
-
+		getActivity().unregisterReceiver(myReciver);
 	}
 
+	
+	@SuppressLint("NewApi")
+	private void registReciver() {
+		// TODO Auto-generated method stub
+		myReciver = new MyReceiver();
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("justlink.action.intent.data_inited");
+		getActivity().registerReceiver(myReciver, filter);
+		
+	}
+	
+	
 	@SuppressLint("NewApi")
 	private void initView(View view) {
 		okHttpClient = new OkHttpClient.Builder().connectTimeout(5,
@@ -221,6 +251,7 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 		tvTitel1 = (TextView) view.findViewById(R.id.tv_search_1);
 		tvTitel2 = (TextView) view.findViewById(R.id.tv_search_2);
 		tvTitelCount = (TextView) view.findViewById(R.id.tv_search_count);
+		pb = (ProgressBar) view.findViewById(R.id.pb);
 
 		tvTitel1.setText(VideoString.song_search_tip2[jLanguage]);
 		tvTitel2.setText(VideoString.song_search_tip2[jLanguage]);
@@ -261,6 +292,10 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 		//grid_main.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		String res = getSingerDatas(0, searchKey, 0, 2, 0, 0, 12);
 		Datas = parseJSONObect(res);
+		
+		if(Datas.size() == 0)
+		pb.setVisibility(View.VISIBLE);
+		
 		adapter = new MyGridAdapter(getActivity(), Datas);
 		grid_main.setAdapter(adapter);
 		grid_main
@@ -268,7 +303,7 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 					@Override
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
-					//	Log.v("song", "onItemSelected====" + position);
+						Log.v("song", "onItemSelected====" + position);
 						// adapter.update_sel(position);
 						currentPosition = position;
 						adapter.setNotifyDataChange(position);
@@ -311,22 +346,20 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 				Log.i("song", "grid_main focus change=======" + arg1);
 				if (arg1){
 					MyApplication.isSingerListFocus = true;
-					 try {
+					/* try {
 				            Method fireOnSelected = AdapterView.class.getDeclaredMethod("fireOnSelected", null);
 				            fireOnSelected.setAccessible(true);
 				            fireOnSelected.invoke(grid_main); //运行该方法
 				        } catch (Exception e) {
 				            e.printStackTrace();
-				        }
+				        }*/
 				}
 				else
 					MyApplication.isSingerListFocus = false;
 			}
 		});
 
-		tvTitelCount.setText("/" + MyApplication.searchKey + "("
-				+ getResources().getString(R.string.sum_count) + totalCount
-				+ ")");
+		tvTitelCount.setText("/" + MyApplication.searchKey +getPageInfo());
 
 	}
 
@@ -370,6 +403,7 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 					&& Datas.size() == 12 && MyApplication.isSingerListFocus) {
 				MyApplication.isOnkeyupRefresh = true;
 				list_start += 4;
+				currentPage += 1;
 				Message message1 = new Message();
 				message1.what = WHAT_UPDATE_LIST;
 				handler.sendMessage(message1);
@@ -402,6 +436,7 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 					&& list_start > 0 && MyApplication.isSingerListFocus) {
 				MyApplication.isOnkeyupRefresh = true;
 				list_start -= 4;
+				currentPage -= 1;
 				Message message1 = new Message();
 				message1.what = WHAT_UPDATE_LIST;
 				handler.sendMessage(message1);
@@ -417,13 +452,13 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 
 		} else if (keyCode == event.KEYCODE_DPAD_RIGHT) {
 
-			if (mHandler != null)
-				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);
+		/*	if (mHandler != null)
+				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);*/
 
 		} else if (keyCode == event.KEYCODE_DPAD_LEFT) {
-			if (!MyApplication.isGridviewFocus && mHandler != null
+		/*	if (!MyApplication.isGridviewFocus && mHandler != null
 					&& !MyApplication.isSearchViewShow)
-				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);
+				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);*/
 			if (MyApplication.isSearchViewShow
 					&& (currentPosition == 4 || currentPosition == 8)
 					&& MyApplication.isSingerFragment) {
@@ -460,7 +495,7 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 
 			String result = JNILib.getSongData(cmdObject.toString());
 			// Log.i("song","singer搜索命令==="+cmdObject.toString());
-			//Log.i("song", "singer搜索结果===" + result);
+			Log.i("song", "singer搜索结果===" + result);
 
 			return result;
 
@@ -479,8 +514,8 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 		try {
 			resultObject = new JSONObject(result);
 			totalCount = resultObject.getInt("total_count");// 当前类别总数�?
-			int startCount = resultObject.getInt("list_start");// 本次起始序列�?
-			int currentCount = resultObject.getInt("list_count");// 当次返回数量
+			startCount = resultObject.getInt("list_start");// 本次起始序列�?
+			currentCount = resultObject.getInt("list_count");// 当次返回数量
 			if (currentCount == 0)
 				return list;
 
@@ -607,11 +642,7 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 			imageLoader.init(configuration);									
 		}
 
-	
-	
-		
-		
-
+						
 		private void initOptions() {
 
 			options = new DisplayImageOptions.Builder()
@@ -664,9 +695,11 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 			if (convertView == null) {
 				holder = new VIewHolder();
 				convertView = LayoutInflater.from(context).inflate(R.layout.list_singer_main, null);
+			/*	holder.animation = (AnimationImageView) convertView
+						.findViewById(R.id.iv_image);*/
 				holder.inageView = (ImageView) convertView
 						.findViewById(R.id.iv_image);
-				holder.focusButton = (ImageView) convertView.findViewById(R.id.singer_bk_image);
+			//	holder.focusButton = (ImageView) convertView.findViewById(R.id.singer_bk_image);
 				holder.textView = (TextView) convertView
 						.findViewById(R.id.tv_title);
 				holder.inageView.setTag(searchBean.getSingerNumber());
@@ -676,15 +709,16 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 				holder.inageView.setTag(searchBean.getSingerNumber());
 			}
 
-			if (selectPic == position) {
+			/*if (selectPic == position) {
+				Log.i("song","selectpic=="+selectPic+"==islastitem=="+isLastItem(selectPic));
 				Animation testAnim = AnimationUtils.loadAnimation(
 						getActivity(), R.anim.singerselect_animation);
 				convertView.startAnimation(testAnim);
-				if(position >= 8){
+				//if(selectPic>=8 || isLastItem(selectPic)){
 					LinearLayout.LayoutParams param = (LayoutParams) holder.textView.getLayoutParams();
 					param.setMargins(0, -50, 0, 0);
 					holder.textView.setLayoutParams(param);	
-				}
+				//}
 				
 			} else {
 				Animation testAnim = AnimationUtils.loadAnimation(
@@ -693,13 +727,14 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 				LinearLayout.LayoutParams param = (LayoutParams) holder.textView.getLayoutParams();
 				param.setMargins(0, 0, 0, 0);
 				holder.textView.setLayoutParams(param);
-			}
+				//Log.i("song","no selectpic=="+position);
+			}*/
 
 			// SystemClock.sleep(100);
 			if (isFileExist(path) && MyApplication.isNeedRefresh) {
 				imageLoader.displayImage("file:/" + path,
 						holder.inageView, options);
-				Log.i("song","加载本地歌星图========");
+			//	Log.i("song","加载本地歌星图========");
 			} else if (!isFileExist(path) && MyApplication.isNeedRefresh) {
 
 				try {
@@ -827,7 +862,7 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 		private void LoadPicturePath(String singerNumber,
 				final GetPictureListener listener) {
 			// TODO Auto-generated method stub
-			Log.i("song","开始下载歌星图========");
+			//Log.i("song","开始下载歌星图========");
 
 			// realseCacheFile();
 			map.clear();
@@ -901,15 +936,14 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					tvTitelCount.setText("/" + MyApplication.searchKey + "("
-							+ getResources().getString(R.string.sum_count)
-							+ totalCount + ")");
+					tvTitelCount.setText("/" + MyApplication.searchKey +getPageInfo());
 				}
-			}, 1000);
+			}, 500);
 
 		}
 
 		private class VIewHolder {
+			AnimationImageView animation;
 			ImageView inageView;
 			TextView textView;
 			ImageView focusButton;
@@ -960,9 +994,7 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					tvTitelCount.setText("/" + MyApplication.searchKey + "("
-							+ getResources().getString(R.string.sum_count)
-							+ totalCount + ")");
+					tvTitelCount.setText("/" + MyApplication.searchKey + getPageInfo());
 					
 				}
 			}, 1000);
@@ -1229,5 +1261,50 @@ public class SingerFragment extends CommonFragment implements OnClickListener,
 				}
 			}
 		}.start();
+	}
+	
+	
+	
+	private StringBuffer sb = new StringBuffer();
+	public String getPageInfo() {
+		sb.setLength(0);
+		int total = totalCount;
+		if (total > 12) {
+			if ((total - 12) % 4 == 0)
+				sb.append("(").append(currentPage).append("/").append((total - 12) / 4 + 1).append(")");
+			else
+				sb.append("(").append(currentPage).append("/").append((total - 12) / 4 + 2).append(")");
+		} else {
+			sb.append("(1/1)");
+		}
+		return sb.toString();
+	}
+	
+	
+	public class MyReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			// TODO Auto-generated method stub
+			if("justlink.action.intent.data_inited".equals(arg1.getAction())){
+				pb.setVisibility(View.GONE);
+			/*	//外部跳转刷新数据
+				Datas = parseJSONObect(getSingerDatas(0, searchKey, 0, 2,
+						layType, list_start, 12));
+				refresh(Datas);*/
+			}
+		}
+		
+	}
+	
+	
+	public boolean isLastItem(int postion){
+		Log.i("song","current count==="+currentCount);
+		if(currentCount <= 4){
+			return true;
+		}else if(currentCount>4 && currentCount<=8 && postion>3 && postion<8 ){
+			return true;
+		}
+		return false;
 	}
 }

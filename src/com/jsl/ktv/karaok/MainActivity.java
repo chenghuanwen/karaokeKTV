@@ -20,6 +20,9 @@ import java.util.TimerTask;
 
 import com.player.boxplayer.karaok.JNILib;
 import org.apache.http.util.EncodingUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -121,6 +124,7 @@ import com.jsl.ktv.util.CreateSpecifiedSizeFileUtil.FileUnit;
 import com.jsl.ktv.util.HiMediaPlayerInvoke;
 import com.jsl.ktv.util.SongJsonParseUtils;
 import com.jsl.ktv.view.AnimationButton;
+import com.jsl.ktv.view.MarqueeTextView;
 import com.jsl.ktv.view.MyApplication;
 import com.jsl.ktv.view.SoftInputSearchView;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
@@ -425,8 +429,12 @@ public class MainActivity extends Activity {
 	private boolean pipPageDown = false;
 	private FrameLayout llNextPlay;
 	private TextView tvNowPlaying,tvNextPlay;
-	
-	
+	private boolean isFromOutSideSong = false;
+	private boolean isFromOutSideSinger = false;
+	private boolean isFromOutSideOrder = false;
+	private String outSideSinger,outSideSong;
+	private FromOutsideInitReceiver outSideReceiver;
+	private boolean isSelectFocus = false;
 	private Handler fragmentHander = new Handler() {
 		public void handleMessage(Message msg) {
 			// Log.i("song","msg.what =="+msg.what);
@@ -597,13 +605,13 @@ public class MainActivity extends Activity {
 				// Log.i("song","reset top button focus ====");
 				break;
 			case FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS:
-				// Log.i("song","ban yidian button focus ====");
+				 Log.i("song","ban yidian button focus ====");
 				View childAt = listView_songlist.getChildAt(0);
 				if (childAt != null)
 					childAt.findViewById(R.id.top_back).setFocusable(false);
 				break;
 			case FragmentMessageConstant.FRAGMENT_MESSAGE_RESET_YIDIAN_BUTTON_FOCUS:
-				 //Log.i("song","reset yidian button focus ====");
+				 Log.i("song","reset yidian button focus ====");
 				View childAt1 = listView_songlist.getChildAt(0);
 				if (childAt1 != null)
 					childAt1.findViewById(R.id.top_back).setFocusable(true);
@@ -671,20 +679,7 @@ public class MainActivity extends Activity {
 				AnimationDrawable animation = (AnimationDrawable) ivAnimation
 						.getBackground();
 				animation.start();
-				// 暂停
-				pauseVideo();
-				RefreshVideoDoubleScreenPauseStatus();
-				if (getPauseStatus() == 0) {
-					isPause = true;
-					if (isScore)
-						mLineView.stopSing();
-				} else {
-					isPause = false;
-					if (!isMute)
-						startRecoverVulume();
-					if (isScore)
-						mLineView.startSing();
-				}
+				
 				currentDownloadProgress = 0;
 				final StringBuffer sb = new StringBuffer();
 
@@ -701,6 +696,50 @@ public class MainActivity extends Activity {
 							isOnDownLoad = true;
 							try {
 								JSONObject object = new JSONObject(downloadJson);
+								
+								if(object.getInt("cloud_status")<0){//下载失败
+									Log.i("song","download fail=======");
+									tvDownloadProgress.setText(getResources().getString(R.string.down_fail_play));
+								//	Toast.makeText(MainActivity.this, getResources().getString(R.string.down_fail),Toast.LENGTH_LONG).show();
+								handler.postDelayed(new Runnable() {
+									
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										downloadProgressBar.setVisibility(View.GONE);
+										isOnDownLoad = false;
+										if(!PreviewVideo.isPlaying()){
+											pauseVideo();
+											mMainNoticeLayout.setVisibility(View.GONE);	
+										}
+										
+										if(SongJsonParseUtils.getSongDatas3(0, "", 0, 22, 0, 0, 1, "").size()==0)
+											preLoading.setVisibility(View.VISIBLE);
+											VideoViewInit();//退出全屏	
+										
+									}
+								}, 2000);
+									
+									return;
+								}else{																	
+									Log.i("song","download successful=======");
+								if(PreviewVideo.isPlaying()){
+									// 暂停
+									pauseVideo();
+									RefreshVideoDoubleScreenPauseStatus();
+									if (getPauseStatus() == 0) {
+										isPause = true;
+										if (isScore)
+											mLineView.stopSing();
+									} else {
+										isPause = false;
+										if (!isMute)
+											startRecoverVulume();
+										if (isScore)
+											mLineView.startSing();
+									}
+								}
+								
 								currentDownloadProgress = object
 										.getInt("down_percent");
 								sb.append(
@@ -711,6 +750,7 @@ public class MainActivity extends Activity {
 										.append(object.getString("down_speed"))
 										.append("/s)");
 								tvDownloadProgress.setText(sb.toString());
+								}
 								postDelayed(this, 1000);
 							} catch (JSONException e) {
 								// TODO Auto-generated catch block
@@ -724,6 +764,7 @@ public class MainActivity extends Activity {
 								// downloadProgressBar.setVisibility(View.GONE);
 							}
 						} else {
+							Log.i("song","download finish=======");
 							currentDownloadProgress = 100;
 							downloadProgressBar.setVisibility(View.GONE);
 							isOnDownLoad = false;
@@ -1537,7 +1578,7 @@ public class MainActivity extends Activity {
 			case KARAOKE_USB_MIC_DISCONNECT:// USB MCI 断开
 				micphone.stop();
 				micphone.release();
-				Log.i("song", "mic stop==========");
+				//Log.i("song", "mic stop==========");
 				break;
 			default:
 				break;
@@ -1638,6 +1679,11 @@ public class MainActivity extends Activity {
 		int b = JNILib.toAssetManager(getAssets());
 		Log.i(TAG, "===========getAssets()=======" + b);
 		JNILib.setGlobalVersion(UInumber);
+		
+	
+		setMachineVersion();
+		
+		
 		Log.i(TAG, "===========UInumber=======");
 		default_start = JNILib.getDefaultStart();
 		Log.i(TAG, "    start android:" + default_start);
@@ -1655,6 +1701,7 @@ public class MainActivity extends Activity {
 
 		registMICReceiver();
 		sataRegisterReceiver();
+		registerOutsideReceiver();
 		// myRegisterReceiver();
 		// netRegisterReceiver();
 		// sataRegisterReceiver();
@@ -1753,6 +1800,31 @@ public class MainActivity extends Activity {
 		usbActionDetectViaTimer();
 	}
 
+	private void setMachineVersion() {
+		// TODO Auto-generated method stub
+		HashMap<String, String> machieInfo = new HashMap<String, String>();
+		machieInfo.put("mac", MyApplication.MAC);
+		//machieInfo.put("pkg",UInumber);
+		machieInfo.put("model","longtv");
+		machieInfo.put("sw_ver","Longtv_karaoke_v1.1");
+		machieInfo.put("hw_ver","longtv");	
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String json = mapper.writeValueAsString(machieInfo);
+			JNILib.setMachineVersion(json);
+			Log.i("song","machine info==="+json);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	protected void onNewIntent(Intent intent) {
 		// TODO Auto-generated method stub
@@ -1788,7 +1860,7 @@ public class MainActivity extends Activity {
 
 	public void VideoViewInit() {
 		mQrPlayTime = 0;
-
+		isSelectFocus = false;
 		
 		RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(
 				420 * 1920 / 1280, 236 * 1920 / 1280);// 宽高420, 236
@@ -1797,6 +1869,7 @@ public class MainActivity extends Activity {
 		PreviewVideo.setLayoutParams(rl);
 		ivMusicbg.setLayoutParams(rl);
 		preLoading.setLayoutParams(rl);
+		downloadProgressBar.setLayoutParams(rl);
 		
 		listView_songlist = (ListView) findViewById(R.id.list_song);
 		listView_songlist.setFocusable(false);
@@ -1837,6 +1910,7 @@ public class MainActivity extends Activity {
 		PreviewVideo.setLayoutParams(rl);
 		ivMusicbg.setLayoutParams(rl);
 		preLoading.setLayoutParams(rl);
+		downloadProgressBar.setLayoutParams(rl);
 		VideoViewFullScreen = true;
 		hideViewInFullscreen();
 	}
@@ -1891,6 +1965,7 @@ public class MainActivity extends Activity {
 		btnSearch.setVisibility(View.GONE);
 		wifiBotton.setVisibility(View.GONE);
 		btnDownload.setVisibility(View.GONE);
+		preLoading.setVisibility(View.GONE);
 		showBar();
 
 		RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(180,
@@ -1989,12 +2064,14 @@ public class MainActivity extends Activity {
 
 	private int firstLoadPosition = -1;
 	private boolean isOnloading = false;
+	private String downloadSong,loadPositionSong;
 	public class MyAdapter_songlist1 extends BaseAdapter {
 		private LayoutInflater mInflater;
 		private ArrayList<SongSearchBean> songs;
 		private int downloadProgress;
-		private String downloadSong;
+		
 		private DownloadThread downloadThread;
+		private int downStatus;
 		private Handler uiHandler = new Handler(getMainLooper());
 
 		public MyAdapter_songlist1(Context context,
@@ -2002,12 +2079,13 @@ public class MainActivity extends Activity {
 			this.mInflater = LayoutInflater.from(context);
 			this.songs = songs;
 			downloadThread = new DownloadThread();
+			//firstLoadPosition = -1;
 		}
 
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return 5;
+			return songs.size()==0?0:5;
 		}
 
 		@Override
@@ -2033,27 +2111,81 @@ public class MainActivity extends Activity {
 			final LastViewHolder_type holder_type3 = new LastViewHolder_type();
 			TopViewHolder_type holder_type2 = new TopViewHolder_type();
 			
-
 			// if (convertView == null) {
 			switch (type) {
 			case 1:
-					convertView = mInflater.inflate(R.layout.top_songl, null);
+					convertView = mInflater.inflate(R.layout.yidian_top_songl, null);
 					holder_type2.top_title = (Button) convertView
 							.findViewById(R.id.top_back);
-					holder_type2.top_info = (TextView) convertView
+					holder_type2.marqueeTv = (MarqueeTextView) convertView
 							.findViewById(R.id.top_info);
 					convertView.setTag(holder_type2);
+					holder_type2.icon = (ImageView) convertView.findViewById(R.id.music_3);										
+					
 					if(position < songs.size()){
 						final SongSearchBean bean = songs.get(position);
-				holder_type2.top_info.setText(bean.getSong());
+						Log.i("song","select first item is cloud=="+bean.isCloud()+"=="+bean.getSong()+"=="+downloadSong);
+						if(bean.isCloud()){
+							holder_type2.icon.setBackgroundResource(R.drawable.cloud_select);
+							if(!isOnloading || bean.getSong().equals(downloadSong)){
+								setFirstLoadPosition(position);
+								loadPositionSong = bean.getSong();
+								isOnloading = true;	
+							}
+						}else{
+							holder_type2.icon.setBackgroundResource(R.drawable.music_3);
+						}
+				holder_type2.marqueeTv.setText(bean.getSong());
 				if(currentpage[0]==1)
-				holder_type2.top_info.setTextColor(Color.parseColor("#00f6ff"));
+				holder_type2.marqueeTv.setTextColor(Color.parseColor("#00f6ff"));
 				holder_type2.top_title.setText(getResources().getString(
 						R.string.yidian_1)
 						+ SongJsonParseUtils.getTotal()
 						+ getResources().getString(R.string.yidian_2));
 				holder_type2.top_title
 						.setTextColor(Color.parseColor("#ffffff"));
+				
+				holder_type2.top_title.setOnFocusChangeListener(new OnFocusChangeListener() {
+					
+					@Override
+					public void onFocusChange(View arg0, boolean arg1) {
+						// TODO Auto-generated method stub
+						if(arg1){
+							isSelectFocus = true;
+						}
+					}
+				});
+				
+				
+			/*	holder_type2.top_title.setOnKeyListener(new OnKeyListener() {
+					
+					@Override
+					public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
+						// TODO Auto-generated method stub
+						if(arg2.getAction()==KeyEvent.ACTION_DOWN){
+							isSelectFocus = false;
+						View view = listView_songlist.getChildAt(1);
+							if(view!=null && arg2.getKeyCode()==20){
+								Button btn = (Button)view.findViewById(R.id.view_btn5);
+								Log.i("song","select item 2=="+btn);
+								if(btn != null){
+									btn.requestFocusFromTouch();
+									btn.setFocusableInTouchMode(true);
+									btn.setFocusable(true);
+									btn.requestFocus();
+									Log.i("song","select item 2 btn request focus==");
+									return true;
+									
+								}
+								
+							}
+						//	sendBroadcast(new Intent("justlink.intent.action.ban_home_focus"));
+							Log.i("song","select action down======");
+						}
+						return false;
+					}
+				});*/
+				
 				holder_type2.top_title
 						.setOnClickListener(new View.OnClickListener() {
 							@Override
@@ -2069,57 +2201,51 @@ public class MainActivity extends Activity {
 								hideSearchSoftInput();
 							}
 						});
-				holder_type2.top_title
-						.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-							@Override
-							public void onFocusChange(View arg0, boolean arg1) {
-								// TODO Auto-generated method stub
-								// if (!arg1)
-								// fragmentHander.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);
-							}
-						});
-				holder_type2.top_title.setFocusable(false);
+			
+				
 					}
 				break;
 
 			case 2:
 				
 				// 可以理解为从vlist获取view 之后把view返回给ListView
-					convertView = mInflater.inflate(R.layout.type_slist, null);											
-					holder_type.title = (Button) convertView
+					convertView = mInflater.inflate(R.layout.yidian_type_slist, null);											
+					holder_type.info = (MarqueeTextView) convertView
 							.findViewById(R.id.top_info);				
 					holder_type.imageView = (ImageView) convertView
-							.findViewById(R.id.music_3);
+							.findViewById(R.id.music_3);           
 					holder_type.chabo = (Button) convertView
 							.findViewById(R.id.view_btn5);
 					holder_type.youxian = (Button) convertView
 							.findViewById(R.id.view_btn3);
 					convertView.setTag(holder_type);
 					if(position < songs.size()){
-						holder_type.title.setVisibility(View.VISIBLE);
+						holder_type.info.setVisibility(View.VISIBLE);
 						holder_type.imageView.setVisibility(View.VISIBLE);
 						holder_type.chabo.setVisibility(View.VISIBLE);
 						holder_type.youxian.setVisibility(View.VISIBLE);
 						final SongSearchBean bean2 = songs.get(position);
-				holder_type.title.setTextColor(Color.parseColor("#e4e4e4"));
-				if (bean2.isCloud) {
-					if(!isOnloading){
+				holder_type.info.setTextColor(Color.parseColor("#e4e4e4"));
+				if (bean2.isCloud()) {
+					if(!isOnloading || bean2.getSong().equals(downloadSong)){
+						Log.i("song","select 2=="+bean2.getSong()+"=="+downloadSong);
 						setFirstLoadPosition(position);
+						loadPositionSong = bean2.getSong();
 						isOnloading = true;	
 					}
 					holder_type.chabo.setVisibility(View.GONE);
 					holder_type.youxian.setVisibility(View.GONE);
 					holder_type.imageView
 							.setBackgroundResource(R.drawable.cloud_select);
-					holder_type.title.setText(bean2.getSong() + "("
-							+ getResources().getString(R.string.on_loading)
+					holder_type.info.setText(bean2.getSong() + "("
+							+ getResources().getString(R.string.wait_loading)
 							+ ")");
 				} else {
 					holder_type.chabo.setVisibility(View.VISIBLE);
 					holder_type.youxian.setVisibility(View.VISIBLE);
 					holder_type.imageView
 							.setBackgroundResource(R.drawable.music_3);
-					holder_type.title.setText(bean2.getSong());
+					holder_type.info.setText(bean2.getSong());
 				}
 
 				holder_type.chabo.setOnClickListener(new OnClickListener() {// 插播
@@ -2158,10 +2284,10 @@ public class MainActivity extends Activity {
 					}
 				});
 				
-				holder_type.chabo.setOnFocusChangeListener(new MyListFocusChangeListener());
-				holder_type.youxian.setOnFocusChangeListener(new MyListFocusChangeListener());
+				//holder_type.chabo.setOnKeyListener(new MyKeyDownListener(position));
+				//holder_type.youxian.setOnKeyListener(new MyKeyDownListener(position));
 				}else{
-					holder_type.title.setVisibility(View.INVISIBLE);
+					holder_type.info.setVisibility(View.INVISIBLE);
 					holder_type.imageView.setVisibility(View.INVISIBLE);
 					holder_type.chabo.setVisibility(View.INVISIBLE);
 					holder_type.youxian.setVisibility(View.INVISIBLE);
@@ -2170,7 +2296,7 @@ public class MainActivity extends Activity {
 			case 3:
 				// 可以理解为从vlist获取view 之后把view返回给ListView
 				
-					convertView = mInflater.inflate(R.layout.last_item, null);
+					convertView = mInflater.inflate(R.layout.select_last_item, null);
 					
 					holder_type3.page = (TextView) convertView
 							.findViewById(R.id.page);
@@ -2180,8 +2306,7 @@ public class MainActivity extends Activity {
 							.findViewById(R.id.next_page);
 
 					if(!pipPageUp)
-					holder_type3.pre_page.setFocusable(false);
-					
+					holder_type3.pre_page.setFocusable(false);			
 					
 					holder_type3.next_page.setOnKeyListener(new OnKeyListener() {
 						
@@ -2190,6 +2315,10 @@ public class MainActivity extends Activity {
 							// TODO Auto-generated method stub
 							if(arg2.getAction()==KeyEvent.ACTION_DOWN && arg2.getKeyCode()==21){
 								holder_type3.pre_page.setFocusable(true);
+							}else if(arg2.getAction()==KeyEvent.ACTION_DOWN && arg2.getKeyCode()==22){
+								pipPageDown = false;
+								pipPageUp = false;
+								sendBroadcast(new Intent("justlink.intent.action.homefragment_requst_focus"));
 							}
 							return false;
 						}
@@ -2222,7 +2351,7 @@ public class MainActivity extends Activity {
 									return;
 								}
 								currentpage[0] += 1;
-								Log.i("song", "next click currentpage ==" + currentpage[0]);
+							//	Log.i("song", "next click currentpage ==" + currentpage[0]);
 								holder_type3.page.setText(currentpage[0] + "/"
 										+ page[0]);
 								ArrayList<SongSearchBean> list = SongJsonParseUtils.getSongDatas3(
@@ -2248,12 +2377,12 @@ public class MainActivity extends Activity {
 						ArrayList<SongSearchBean> list = SongJsonParseUtils.getSongDatas3(
 								0, "", 0, 31, 0, ((currentpage[0]-1)*4), 4, "");
 						
-						Log.i("song", "pre click currentpage ==" + currentpage[0]);
+						//Log.i("song", "pre click currentpage ==" + currentpage[0]);
 						holder_type3.page.setText(currentpage[0] + "/"
 								+ page[0]);
 						refreshPage(list,holder_type3.pre_page);
 
-					}
+					} 
 				});
 				break;
 			}
@@ -2291,6 +2420,7 @@ public class MainActivity extends Activity {
 				songs.clear();
 				songs.addAll(list);
 				notifyDataSetChanged();
+
 			}
 		}
 
@@ -2348,20 +2478,31 @@ public class MainActivity extends Activity {
 		}
 
 		// 刷新某一条item
-		private void refreshItemView(final int downloadProgress,final String songname) {
+		private void refreshItemView(final int downloadProgress,final String songname,final int downStatus) {
 			// TODO Auto-generated method stub
 			uiHandler.post(new Runnable() {
 
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
+				//	Log.i("song", "first load position=="+firstLoadPosition);
 					View firstRefreshView = listView_songlist
 							.getChildAt(firstLoadPosition);
-					if (firstRefreshView != null) {
-						Button titel = (Button) firstRefreshView.findViewById(R.id.top_info);
-						titel.setText(songname+"("+getResources().getString(//null
-								R.string.on_loading)
-								+ downloadProgress + "%)");
+					if (firstRefreshView!=null && downloadSong.equals(loadPositionSong)) {
+						MarqueeTextView titel = (MarqueeTextView) firstRefreshView.findViewById(R.id.top_info);
+						Button select = (Button)firstRefreshView.findViewById(R.id.top_back);
+						if(downStatus==0){
+							titel.setText(songname+"("+getResources().getString(R.string.on_loading)+ downloadProgress + "%)");	
+						}else{
+							titel.setText(songname+"("+getResources().getString(R.string.download_failed));
+							isOnloading = false;
+							firstLoadPosition = -1;
+						}
+						Log.i("song","is select focus=="+isSelectFocus+"==button=="+select);
+						if(isSelectFocus && select!=null){
+							select.requestFocus();
+						}
+						
 					} else {
 						Log.i("song", "firstview == null===firstLoadPositon==="
 								+ firstLoadPosition);
@@ -2383,11 +2524,12 @@ public class MainActivity extends Activity {
 						String json = JNILib.getSongDownPercent();
 						//Log.i("song", "download percent===" + json);
 						try {
-							if (json != null) {
+							if (json!=null && json.contains("down_percent")) {
 								JSONObject object = new JSONObject(json);
 								downloadProgress = object.getInt("down_percent");
 								downloadSong = object.getString("song_name");
-								refreshItemView(downloadProgress,downloadSong);
+								downStatus = object.getInt("cloud_status");
+								refreshItemView(downloadProgress,downloadSong,downStatus);
 							//	Log.i("song","oldprogress=="+oldDownProgress+"==currentprogress=="+downloadProgress);
 									if(oldDownProgress > downloadProgress){
 									fragmentHander.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_REFRESH_YIDIAN_LIST);
@@ -2397,7 +2539,20 @@ public class MainActivity extends Activity {
 								SystemClock.sleep(1000);
 							} else {
 								isOnloading = false;
+								firstLoadPosition = -1;
 								fragmentHander.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_REFRESH_YIDIAN_LIST);
+								//TODO
+								runOnUiThread(new Runnable() {//第一次点歌，下载完成后自动播放
+									
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										ArrayList<SongSearchBean> list = SongJsonParseUtils.getSongDatas3(
+												0, "", 0, 31, 0, 0, 4, "");
+										if(list!=null && list.size()==1)
+											playVideoNext();	
+									}
+								});
 								
 							}
 
@@ -2410,7 +2565,6 @@ public class MainActivity extends Activity {
 					}
 					SystemClock.sleep(1000);
 					// Log.i("song","downloadProgress======="+JNILib.getSongDownPercent());
-
 				}
 				// super.run();
 			}
@@ -2427,6 +2581,56 @@ public class MainActivity extends Activity {
 			}
 			
 		}
+		
+		public class MyKeyDownListener implements OnKeyListener{
+			private int position = -1;
+			public MyKeyDownListener(int pos){
+				position = pos;
+			}
+			@Override
+			public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
+				// TODO Auto-generated method stub
+				if(arg2.getAction()==KeyEvent.ACTION_DOWN && arg2.getKeyCode()==20){
+					if(position<3){
+						View view = listView_songlist.getChildAt(position+1);
+						if(view!=null ){
+							Button btn = (Button)view.findViewById(R.id.view_btn5);
+							Log.i("song","select item positon=="+position);
+							if(btn != null){
+								btn.requestFocusFromTouch();
+								btn.setFocusableInTouchMode(true);
+								btn.setFocusable(true);
+								btn.requestFocus();
+								Log.i("song","select item 3 btn request focus==");
+								return true;
+								
+							}
+							
+						}else{
+						Button btn =(Button) listView_songlist.getChildAt(4).findViewById(R.id.next_page);
+						btn.requestFocusFromTouch();
+						btn.setFocusableInTouchMode(true);
+						btn.setFocusable(true);
+						btn.requestFocus();
+						Log.i("song","select item 3 btn request focus==");
+						return true;
+						}	
+					}else{
+						Button btn =(Button) listView_songlist.getChildAt(4).findViewById(R.id.next_page);
+						btn.requestFocusFromTouch();
+						btn.setFocusableInTouchMode(true);
+						btn.setFocusable(true);
+						btn.requestFocus();
+						Log.i("song","select item 4 btn request focus==");
+						return true;
+					}
+					
+				}
+				return false;
+			}
+			
+		}
+		
 
 	}
 
@@ -2477,15 +2681,14 @@ public class MainActivity extends Activity {
 
 	
 	private long lastPressTime;
-	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		Log.i("onKeyDown", "====JSL==== onKeyDown= " + keyCode);
 		if (keyCode != 4
-				&& (MyApplication.isSongNameFragment || MyApplication.isSingerFragment)) {
+				&& (MyApplication.isSongNameFragment || MyApplication.isSingerFragment || MyApplication.isRecommendFragment)) {
 			songFragment.onKeyDown(keyCode, event);
 			singerFragment.onKeyDown(keyCode, event);
-			RecommendSongNameFragment.onKeyDown(keyCode, event);
+			recommendSongNameFragment.onKeyDown(keyCode, event);
 		}
 
 		if (keyCode == 8 || keyCode == 132) {
@@ -2508,8 +2711,7 @@ public class MainActivity extends Activity {
 			if ((!TextUtils.isEmpty(MyApplication.searchKey)
 					|| (!MyApplication.isInHomeFragment && MyApplication.isOnSelectSong))
 					&& !VideoViewFullScreen) {
-				fragmentHander
-						.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);
+				//fragmentHander.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);
 				fragmentHander
 						.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_FOCUS_SEARCHVIEW);
 				MyApplication.currentSingerNum = "";
@@ -2694,6 +2896,7 @@ public class MainActivity extends Activity {
 				return false;
 			}
 		} else if (keyCode == 1004) {// 重唱 KEY_SUBTITLE
+			
 			OSDPlayTime = 15;
 			NoticePicPlayTime = 15;
 			try {
@@ -2742,7 +2945,7 @@ public class MainActivity extends Activity {
 				e.printStackTrace();
 			}
 		} else if (keyCode == 21 || keyCode == 22) {
-			if (!SeekBarshow && VideoViewFullScreen) {
+			if (!SeekBarshow && VideoViewFullScreen && !OSDshow) {
 				showBar();
 				videoSeekBar.requestFocus();
 			}
@@ -3155,8 +3358,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				dissMissBar();
 				if (soundDialog == null)
-					soundDialog = new Sound_effect_dialog(MainActivity.this, -1);
+					soundDialog = new Sound_effect_dialog(MainActivity.this, R.style.SoundDialog);
 				soundDialog.setSoundChangerListener(new OnsetSoundListener() {
 
 					@Override
@@ -3170,6 +3374,7 @@ public class MainActivity extends Activity {
 
 					@Override
 					public void onSetMic(int progress) { // TODO Auto-generated
+						if(micphone != null)
 						micphone.setVolume(progress);
 					}
 				});
@@ -4957,7 +5162,7 @@ public class MainActivity extends Activity {
 				convertView = mInflater.inflate(R.layout.type_vlist, null);
 				holder_type.imageView = (ImageView) convertView
 						.findViewById(R.id.type_sItemIcon);
-				holder_type.imageView.setVisibility(View.GONE);
+				//holder_type.imageView.setVisibility(View.GONE);
 				holder_type.title = (Button) convertView
 						.findViewById(R.id.type_title);
 				holder_type.title
@@ -5509,6 +5714,7 @@ public class MainActivity extends Activity {
 	public final class ViewHolder_type {
 		public ImageView imageView;
 		public Button title, youxian, chabo;
+		public MarqueeTextView info;
 	}
 
 	public final class LastViewHolder {
@@ -5544,6 +5750,9 @@ public class MainActivity extends Activity {
 	public final class TopViewHolder_type {
 		public Button top_title;
 		public TextView top_info;
+		public ImageView icon;
+		public Button top_name;
+		public MarqueeTextView marqueeTv;
 	}
 
 	public final class ViewHolder_sort {
@@ -6762,6 +6971,28 @@ public class MainActivity extends Activity {
 		}
 
 	}
+	
+	
+	public class FromOutsideInitReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			// TODO Auto-generated method stub
+			if("justlink.action.intent.data_inited_outside_singer".equals(arg1.getAction())){
+				Message msg = Message.obtain();
+				msg.what = FragmentMessageConstant.FRAGMENT_MESSAGE_REFRESH_SINGER_DATA;
+				msg.obj = outSideSinger;
+				fragmentHander.sendMessage(msg);
+				sendBroadcast(new Intent("justlink.action.intent.data_inited"));
+				
+			}else if("justlink.action.intent.data_inited_outside_song".equals(arg1.getAction())){
+				SongJsonParseUtils.selectSong("song_select", outSideSong, 4, "");
+				fragmentHander
+						.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_IMMEDIATE_PLAY);
+			}
+		}
+		
+	}
 
 	private void init_video_audio_port() {
 		/*
@@ -7054,6 +7285,15 @@ public class MainActivity extends Activity {
 						Log.i("song","data init progress"+state);
 						}else if(state == 3){// 数据整理完成，默认播放
 							state = 4;
+							MyApplication.isDataInit = true;
+							if(isFromOutSideOrder){
+							sendBroadcast(new Intent("justlink.action.intent.data_inited_outside_order"));
+							}else if(isFromOutSideSinger){
+								sendBroadcast(new Intent("justlink.action.intent.data_inited_outside_singer"));
+							}else if(isFromOutSideSong){
+								sendBroadcast(new Intent("justlink.action.intent.data_inited_outside_song"));
+							}
+							
 							ArrayList<SongSearchBean> listLocal = SongJsonParseUtils
 									.getSongDatas3(0, "", 0, 22, 0, 0, 1, "");
 									
@@ -7066,7 +7306,15 @@ public class MainActivity extends Activity {
 								fragmentHander.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_PLAY_DEFAULT_VIDEO);																									
 								
 							}else if(list!=null && list.size()>0){
-								playVideoNext();
+								runOnUiThread(new Runnable() {
+									
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										playVideoNext();		
+									}
+								});
+								
 							}else{
 								Log.i("song","play local song========");
 								SongJsonParseUtils.selectSong("song_select",
@@ -7182,6 +7430,7 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 
+		//new UpdateSongTxtDialog(this, R.style.MyDialog, "歌单").show();
 		// new HiKaraokeTest(this).startRecorder();
 	}
 	
@@ -7320,7 +7569,7 @@ public class MainActivity extends Activity {
 		unregisterReceiver(netStatReceiver);
 		unregisterReceiver(sataReceiver);
 		unregisterReceiver(mMICReceiver);
-
+		unregisterReceiver(outSideReceiver);
 		// SocketClient socketClient = null;
 		// socketClient = new SocketClient();
 		// socketClient.writeMess("system busybox killall mediaserver");
@@ -7364,8 +7613,8 @@ public class MainActivity extends Activity {
 		// {
 		CurrentPlayPath = JNILib.playNextSong(1);
 		// Log.v(TAG,"====JSL====, get first VideoPath = " + CurrentPlayPath);
-		PlayVideoDoubleScreenNoRepeat(CurrentPlayPath);
-		ClearVideoDoubleScreenPauseStatus();
+	//	PlayVideoDoubleScreenNoRepeat(CurrentPlayPath);
+		//ClearVideoDoubleScreenPauseStatus();
 		// }
 	}
 
@@ -7730,6 +7979,9 @@ public class MainActivity extends Activity {
 			adapter_songlist1.refresh();// 刷新已点列表
 			currentpage[0] = 1;
 		}
+		
+		mMainNoticeLayout.setVisibility(View.GONE);
+		
 	}
 
 	public boolean getStartStatus() {
@@ -8297,6 +8549,15 @@ public class MainActivity extends Activity {
 		intentFilter.addDataScheme("file");
 		registerReceiver(sataReceiver, intentFilter);
 	}
+	
+	public void registerOutsideReceiver(){
+		outSideReceiver = new FromOutsideInitReceiver();
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("justlink.action.intent.data_inited_outside_singer");
+		intentFilter.addAction("justlink.action.intent.data_inited_outside_song");
+		//intentFilter.addDataScheme("file");
+		registerReceiver(outSideReceiver, intentFilter);
+	}
 
 	private class NetStatReceiver extends BroadcastReceiver {
 		@Override
@@ -8642,6 +8903,7 @@ public class MainActivity extends Activity {
 					MyApplication.isPipFocus = true;
 					MyApplication.isGridviewFocus = false;
 					MyApplication.isSingerListFocus = false;
+					isSelectFocus = false;
 					animationBkImage.setVisibility(View.VISIBLE);
 					//MyApplication.isInHomeFragment = false;
 				} else {
@@ -8791,21 +9053,25 @@ public class MainActivity extends Activity {
 		String singerNum = intent.getStringExtra("singerNum");
 		Log.i("song", "receiver intent jump singerNum========" + singerNum);
 		if (!TextUtils.isEmpty(singerNum)) {
+			isFromOutSideSinger = true;
+			outSideSinger = singerNum;
 			replaceFragment(R.id.center_fragment, new SongNameFragment(
 					fragmentHander, 0, 0));
 			// TODO 获取跳转歌星名
 			// MyApplication.currentSinger = searchBean.getSinger();
-			Message msg = Message.obtain();
+		/*	Message msg = Message.obtain();
 			msg.what = FragmentMessageConstant.FRAGMENT_MESSAGE_REFRESH_SINGER_DATA;
 			msg.obj = singerNum;
-			fragmentHander.sendMessage(msg);
+			fragmentHander.sendMessage(msg);*/
 		}
 
 		final String songNum = intent.getStringExtra("songNum");
 		Log.i("song", "receiver intent jump songNum========" + songNum);
 		if (!TextUtils.isEmpty(songNum)) {
 			// VideoViewFullScreen();
-			handler.postDelayed(new Runnable() {
+			isFromOutSideSong = true;
+			outSideSong = songNum;
+		/*	handler.postDelayed(new Runnable() {
 				
 				@Override
 				public void run() {
@@ -8814,12 +9080,13 @@ public class MainActivity extends Activity {
 					fragmentHander
 							.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_IMMEDIATE_PLAY);
 				}
-			}, 1000);		
+			}, 1000);	*/	
 		}
 		
 		int orderId = intent.getIntExtra("orderId", -1);
 		Log.i("song", "receiver intent jump orderid========" + orderId);
 		if(orderId != -1){
+			isFromOutSideOrder = true;
 			replaceFragment(R.id.center_fragment, new RecommendSongNameFragment(
 					fragmentHander, orderId));
 		}

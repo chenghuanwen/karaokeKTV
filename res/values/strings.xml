@@ -93,6 +93,7 @@
     <string name="song_handle8">All add</string>
     <string name="song_handle9">Share</string>
     <string name="song_handle10">Pause</string>
+    <string name="song_handle11">Continue</string>
     <string name="song_all_add_ok">All add</string>
     <string name="score_titel">Score report card</string>
     <string name="score_sing">score:</string>
@@ -257,6 +258,13 @@
     <string name="sum_count">Total:</string>
     <string name="wait_download">Wait for download...</string>
     <string name="on_loading">Loading：</string>
+    <string name="download_failed">Download failed</string>
+	<string name="Inspection_failed">Check failure</string>
+	<string name="File_does_not_exist">File does not exist</string>
+	<string name="The_disk_is_full">The disk is full</string>
+	<string name="MAC_is_not_opened">MAC is not opened</string>
+    <string name="wait_loading">Waiting...</string>
+    
     <string name="menu_main_1">Songs</string>
     <string name="menu_main_2">Singers</string>
     <string name="menu_main_3">Top</string>
@@ -269,6 +277,7 @@
     <string name="upgrade_tip">Find a new version and upgrade immediately?</string>
     <string name="down_sucess">The download is successful and is being installed.</string>
     <string name="down_fail">Download failed, please try again later!</string>
+     <string name="down_fail_play">Download failed and play the default song!</string>
     <string name="newest_version">is the latest version!</string>
     <string name="class_all">All</string>
 	<string name="singer_class1">C.N.-M</string>
@@ -301,4 +310,7 @@
     <string name="no_network">The network is not connected, please check the network status</string>
         <string name="exit_tip">Press twice to exit</string>
         <string name="waiting_for_song">Please select the song...</string>
+        <string name="Detected_update">Detected update</string>	
+        <string name="update_now">Update now</string>
+	<string name="update_next">Next time</string>
 </resources>

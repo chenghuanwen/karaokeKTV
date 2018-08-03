@@ -14,6 +14,7 @@ public class MyApplication extends Application {
 	public static boolean isLanguageChange;
 	public static boolean isSongNameFragment;
 	public static boolean isSingerFragment;
+	public static boolean isRecommendFragment;
     public static boolean isTopButtonFocus;
 	public static int currentItemPosition = 0;
 	public static boolean isNeedRefresh ;
@@ -34,7 +35,8 @@ public class MyApplication extends Application {
 	public static boolean isSearchViewShow;
 	public static boolean isShowDownloadProgress;
 	public static String MAC = "";
-
+	public static boolean isDataInit;
+	
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
@@ -45,6 +47,7 @@ public class MyApplication extends Application {
 		isLanguageChange = false;
 		isSongNameFragment = false;
 		isSingerFragment = false;
+		isRecommendFragment = false;
 		isTopButtonFocus = false;
 		isSelectAll = false;
 		isNeedRefresh = true;
@@ -57,6 +60,7 @@ public class MyApplication extends Application {
 		isShowDownloadProgress = false;
 		currentSinger = "";
 		searchKey = "";
+		isDataInit= false;
 	}
 	
 	

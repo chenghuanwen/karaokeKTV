@@ -2,6 +2,15 @@ package com.jsl.ktv.bean;
 
 public class SongSearchBean {
 	private String song,singer,language,path,songNumber;
+	private int downSta;
+	public int getDownSta() {
+		return downSta;
+	}
+
+	public void setDownSta(int downSta) {
+		this.downSta = downSta;
+	}
+
 	public String getSongNumber() {
 		return songNumber;
 	}

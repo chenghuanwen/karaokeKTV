@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:drawingCacheQuality="high"
+    android:orientation="horizontal" 
+	android:descendantFocusability="afterDescendants"
+	>
+		<ImageView
+        android:id="@+id/music_3"
+        android:layout_width="34dp"
+		android:layout_height="34dp"
+		android:layout_marginLeft="12dp"
+		android:layout_gravity="center_vertical"
+		android:focusable = "false"
+		android:background="@drawable/music_3"/> 
+        <com.jsl.ktv.view.MarqueeTextView  
+            android:id="@+id/top_info"  
+            android:layout_width="wrap_content"  
+            android:layout_height="44dp" 
+			android:textSize="20dp" 
+			android:maxEms="11"
+			android:layout_marginLeft="10dp"
+			android:focusable="false"
+            android:singleLine="true"
+            android:ellipsize="end"	
+            android:background="@null"	
+            android:gravity="left|center_vertical"		
+            android:layout_weight="1"
+            />  
+            
+              <Button android:id="@+id/view_btn3"
+		android:layout_width="44dp"
+		android:layout_height="44dp"
+		android:layout_centerVertical="true"
+		android:background="@drawable/new_youxian_button"/>
+               <Button android:id="@+id/view_btn5"
+		android:layout_width="44dp"
+		android:layout_height="44dp"
+		android:layout_centerVertical="true"
+		android:background="@drawable/btn_new_play_selecter"
+		android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp"
+		 />
+</LinearLayout>

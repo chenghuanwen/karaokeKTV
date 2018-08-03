@@ -388,11 +388,11 @@ public class SoftInputSearchView extends LinearLayout implements OnItemClickList
 			msg.obj = arg0.toString();
 			mHandler.sendMessage(msg);
 			
-			if(TextUtils.isEmpty(arg0.toString())){
+		/*	if(TextUtils.isEmpty(arg0.toString())){
 				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_SHOW_SONG_CLASS);
 			}else{
 				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_HIDE_SONG_CLASS);
-			}
+			}*/
 			
 		}else{
 			msg.what = FragmentMessageConstant.FRAGMENT_MESSAGE_REFRESH_SINGER;

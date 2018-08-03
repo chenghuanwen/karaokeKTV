@@ -81,7 +81,7 @@ public class JNILib
 	public static native String getSongDownPercent();
 	public static native int GetBootStep();
     public static native String getSongListData(String ids); 
-	
+	public static native int setMachineVersion(String version);
 	
 	
     public final static int JLINK_SPEECH_SEARCH = 1;

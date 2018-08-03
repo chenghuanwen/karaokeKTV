@@ -147,10 +147,12 @@
 		android:layout_marginBottom="30dp"
         android:numColumns="4" 
 		android:scrollbars="none"
-        android:horizontalSpacing="56dp"
-		android:verticalSpacing="30dp"
-		android:columnWidth="120dp" 
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="15dp"
+		android:columnWidth="130dp" 
+		android:layout_marginLeft="11dp"
 		android:listSelector="@drawable/singer_back_selecter"  
+		android:descendantFocusability="blocksDescendants"
         >
     </com.jsl.ktv.view.CustomeGridView >
 
@@ -179,5 +181,12 @@
     
 		 
     </RelativeLayout>
+    
+    <ProgressBar 
+        android:id="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 
 </RelativeLayout>

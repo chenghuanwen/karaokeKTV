@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/animation_button"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/animation_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/animation_text"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+   		android:layout_below="@+id/animation_image"
+        android:gravity="center" 
+        android:textColor="#fff"/>
+
+    <ImageView
+        android:id="@+id/animation_bk_image"
+        android:layout_width="131dp"
+        android:layout_height="131dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/focus"
+        android:visibility="gone" />
+
+</RelativeLayout>

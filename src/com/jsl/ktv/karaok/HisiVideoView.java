@@ -979,7 +979,7 @@ public class HisiVideoView extends SurfaceView {
     }
 
     public boolean isPlaying(){
-    	if(mMediaPlayer.isPlaying())
+    	if(mMediaPlayer!=null && mMediaPlayer.isPlaying())
     		return true;
     	else
     		return false;

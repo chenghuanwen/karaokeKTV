@@ -16,16 +16,20 @@ import android.text.TextUtils;
 
 import com.jsl.ktv.constant.FragmentMessageConstant;
 import com.jsl.ktv.R;
+import com.jsl.ktv.R.string;
 import com.jsl.ktv.util.SongJsonParseUtils;
+import com.jsl.ktv.view.MyApplication;
+
 import android.os.Handler;
 public class DownloadOptionDialog extends Dialog implements
 		android.view.View.OnClickListener {
 	private Context context;
 	private Button btnDelete, btnYouxuan, btnPause;
-	private TextView tvTishi;
+	private TextView tvTishi,tv3;
 	private int NoticePicPlayTime;
 	private int stytle ;
 	private String songNum;
+	private int downstat;
 	private String tip = "";
 	private Handler mHandler;
 	private JSONObject cmdjObject;
@@ -48,11 +52,19 @@ public class DownloadOptionDialog extends Dialog implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setCanceledOnTouchOutside(true);
 		setContentView(R.layout.download_option_dialog);	
-		
-		
+	
 		btnPause = (Button) findViewById(R.id.view_btn3);
 		btnYouxuan = (Button) findViewById(R.id.view_btn2);	
 		btnDelete = (Button) findViewById(R.id.view_btn5);
+		tv3 = (TextView) findViewById(R.id.tv3);
+		
+		if(downstat==2){
+			btnPause.setBackgroundResource(R.drawable.btn_new_play_selecter);
+			tv3.setText(R.string.song_handle11);
+		}else{
+			btnPause.setBackgroundResource(R.drawable.new_zanting_button);
+			tv3.setText(R.string.song_handle10);
+		}
 		
 		btnDelete.setOnClickListener(this);
 		btnYouxuan.setOnClickListener(this);
@@ -71,6 +83,7 @@ public class DownloadOptionDialog extends Dialog implements
 		case R.id.view_btn2://优先
 			selectSong(1);
 			mRefreshListener.refreshList();
+			MyApplication.isShowDownloadProgress = true;
 			break;
 		case R.id.view_btn3://暂停
 			selectSong(2);
@@ -89,6 +102,10 @@ public class DownloadOptionDialog extends Dialog implements
 	
 	public void setSongNum(String num){
 		this.songNum = num;
+	}
+	
+	public void setDownstat(int downstat){
+		this.downstat = downstat;
 	}
 	
 	@Override

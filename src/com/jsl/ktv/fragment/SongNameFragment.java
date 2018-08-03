@@ -30,8 +30,10 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.player.boxplayer.karaok.JNILib;
+import com.jsl.ktv.karaok.UpdateSongTxtDialog;
 import com.jsl.ktv.karaok.VideoString;
 import com.jsl.ktv.karaok.MoreOptionDialog;
 import android.view.Window;
@@ -108,7 +110,7 @@ public class SongNameFragment extends CommonFragment implements
 	private static Button tvAll, tvCN, tvEN, tvMN, tvKo, tvGD, tvJap;// 全部、国语、英语、闽南、韩语、粤语、日语
 	private int class_select_index;
 	private static boolean isBanClassFocus = false;
-	
+	private ProgressBar pb;
 	public SongNameFragment() {
 	};
 
@@ -139,6 +141,7 @@ public class SongNameFragment extends CommonFragment implements
 		filter.addAction("justlink.action.intent.songlist_focus");
 		filter.addAction("justlink.action.intent.refresh_searchcount");
 		filter.addAction("justlink.action.intent.refresh_listpage");
+		filter.addAction("justlink.action.intent.data_inited");
 		getActivity().registerReceiver(myReciver, filter);
 	}
 
@@ -162,6 +165,8 @@ public class SongNameFragment extends CommonFragment implements
 		ivPageup = (ImageView) view.findViewById(R.id.iv_pageup);
 		tvEmpty = (TextView) view.findViewById(R.id.tv_emptyview);
 		tvOprationTip = (LinearLayout) view.findViewById(R.id.tv_opration_tip);
+		pb = (ProgressBar) view.findViewById(R.id.pb);
+		
 		
 		languageClass = (LinearLayout) view.findViewById(R.id.ll_language);
 		tvAll = (Button) view.findViewById(R.id.btn_language_all);
@@ -220,10 +225,9 @@ public class SongNameFragment extends CommonFragment implements
 					Log.i("song", "childAt=====" + childAt);
 					if (childAt == null)
 						childAt = gvSong.getChildAt(gvSong
-								.getFirstVisiblePosition());
+								.getFirstVisiblePosition());//null
 					ImageView iv = null;
 					switch (enterType) {
-
 					case 21:// 云端（下载）
 					case 31:// 已点
 						iv = (ImageView) childAt.findViewById(R.id.iv_youxian);
@@ -250,15 +254,15 @@ public class SongNameFragment extends CommonFragment implements
 		mAdapter.setMoreClickListener(new OnMoreClickListener() {
 
 			@Override
-			public void onMoreClickListener(String number, String orderId) {
+			public void onMoreClickListener(String number, String orderId,int downstat) {
 				// TODO Auto-generated method stub
-				showMoreOptionDialog(number, orderId);
+				showMoreOptionDialog(number, orderId,downstat);
 			}
 
 			@Override
 			public void onRecordOption(SongSearchBean song) {
 				recordSong = song;
-				showMoreOptionDialog(song.getSongNumber(), song.getOrderId());
+				showMoreOptionDialog(song.getSongNumber(), song.getOrderId(),0);
 			}
 		});
 
@@ -278,30 +282,33 @@ public class SongNameFragment extends CommonFragment implements
 
 		ArrayList<SongSearchBean> songs = SongJsonParseUtils.getSongDatas2(0,
 				"", 0, enterType, layerType, 0, 8, "");
-		// Log.i("song","获取歌曲数据====enterType=="+enterType);
-		// list_start = 0;
-		// currentPage = 1;
+		if(songs.size()==0)
+			pb.setVisibility(View.VISIBLE);
 		mAdapter.refresh(songs);
 		tvTitelCount.setText(MyApplication.currentSinger + "/"
 				+ SongJsonParseUtils.getSearchKey() + getPageInfo());
 	}
 
+	
+	
+	private StringBuffer sb = new StringBuffer();
 	public String getPageInfo() {
-		String result = "";
+		sb.setLength(0);
 		int total = SongJsonParseUtils.getTotal();
 		if (total > 8) {
+			
 			if ((total - 8) % 2 == 0)
-				result = "(" + currentPage + "/" + ((total - 8) / 2 + 1) + ")";
+				sb.append("(").append(currentPage).append("/").append((total - 8) / 2 + 1).append(")");
 			else
-				result = "(" + currentPage + "/" + ((total - 8) / 2 + 2) + ")";
+				sb.append("(").append(currentPage).append("/").append((total - 8) / 2 + 2).append(")");
 		} else {
-			result = "(1/1)";
+			sb.append("(1/1)");
 		}
-		return result;
+		return sb.toString();
 	}
 
 	@SuppressLint("NewApi")
-	private void showMoreOptionDialog(String num, String orderId) {
+	private void showMoreOptionDialog(String num, String orderId,int downstat) {
 		// TODO Auto-generated method stub
 		// Log.i("song","MyApplication.currentItemPosition=="+MyApplication.currentItemPosition);
 		if (enterType == 30) {// 收藏
@@ -316,14 +323,19 @@ public class SongNameFragment extends CommonFragment implements
 						@Override
 						public void refreshCollectList() {
 							// TODO Auto-generated method stub
-							mAdapter.refresh(SongJsonParseUtils.getSongDatas2(
-									0, "", 0, 30, 0,
-									MyApplication.searchStartCount, 8, ""));
-							// list_start = 0;
-							// currentPage = 1;
+							ArrayList<SongSearchBean> list = SongJsonParseUtils.getSongDatas2(
+									0, "", 0, 30, 0,MyApplication.searchStartCount, 8, "");
+							mAdapter.refresh(list);
+	
 							tvTitelCount.setText(MyApplication.currentSinger
 									+ "/" + SongJsonParseUtils.getSearchKey()
 									+ getPageInfo());
+							
+							if(list!=null && list.size()>0){
+								gvSong.requestFocus();
+								gvSong.requestFocusFromTouch();
+								gvSong.setSelection(0);
+							}	
 						}
 
 					});
@@ -334,6 +346,7 @@ public class SongNameFragment extends CommonFragment implements
 				mDownloadOptionDialog = new DownloadOptionDialog(getActivity(),
 						null, 20, style.MyDialog, mHandler);
 			mDownloadOptionDialog.setSongNum(num);
+			mDownloadOptionDialog.setDownstat(downstat);
 			Window window2 = mDownloadOptionDialog.getWindow();
 			setAttributes(mDownloadOptionDialog);
 
@@ -343,14 +356,20 @@ public class SongNameFragment extends CommonFragment implements
 						@Override
 						public void refreshList() {
 							// TODO Auto-generated method stub
-							mAdapter.refresh(SongJsonParseUtils.getSongDatas2(
+							ArrayList<SongSearchBean> list = SongJsonParseUtils.getSongDatas2(
 									0, "", 0, 21, 0,
-									MyApplication.searchStartCount, 8, ""));
-							// list_start = 0;
-							// currentPage = 1;
+									MyApplication.searchStartCount, 8, "");
+							mAdapter.refresh(list);
+
 							tvTitelCount.setText(MyApplication.currentSinger
 									+ "/" + SongJsonParseUtils.getSearchKey()
 									+ getPageInfo());
+							
+							if(list!=null && list.size()>0){
+								gvSong.requestFocus();
+								gvSong.requestFocusFromTouch();
+								gvSong.setSelection(0);
+							}															
 						}
 
 					});
@@ -371,8 +390,15 @@ public class SongNameFragment extends CommonFragment implements
 				@Override
 				public void refreshList() {
 					// TODO Auto-generated method stub
-					mAdapter.refresh(SongJsonParseUtils.getSongDatas2(0, "", 0,
-							31, 0, MyApplication.searchStartCount, 8, ""));
+					ArrayList<SongSearchBean> list = SongJsonParseUtils.getSongDatas2(0, "", 0,
+							31, 0, MyApplication.searchStartCount, 8, "");
+					
+					mAdapter.refresh(list);
+					if(list!=null && list.size()>0){
+						gvSong.requestFocus();
+						gvSong.requestFocusFromTouch();
+						gvSong.setSelection(0);
+					}
 				}
 
 			});
@@ -411,9 +437,16 @@ public class SongNameFragment extends CommonFragment implements
 						@Override
 						public void refreshLocalList() {
 							// TODO Auto-generated method stub
-							mAdapter.refresh(SongJsonParseUtils.getSongDatas2(
-									0, "", 0, 22, 0,
-									MyApplication.searchStartCount, 8, ""));
+							ArrayList<SongSearchBean> list = SongJsonParseUtils.getSongDatas2(
+									0, "", 0, 22, 0,MyApplication.searchStartCount, 8, "");
+							
+							mAdapter.refresh(list);
+							if(list!=null && list.size()>0){
+								gvSong.requestFocus();
+								gvSong.requestFocusFromTouch();
+								gvSong.setSelection(0);
+							}
+							
 						}
 					});
 			//mlLocalMoreOptionDialog.show();
@@ -503,7 +536,7 @@ public class SongNameFragment extends CommonFragment implements
 			mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_HIDE_YIDIAN_LIST);
 			mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_SHOW_SEARCHVIEW);
 			mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_FOCUS_SEARCHVIEW);
-			
+			//解决默认选择时不触发onitemselectlistener
 			try {
 	            Method fireOnSelected = AdapterView.class.getDeclaredMethod("fireOnSelected", null);
 	            fireOnSelected.setAccessible(true);
@@ -553,6 +586,9 @@ public class SongNameFragment extends CommonFragment implements
 
 		}, 500);
 
+		
+	//	new UpdateSongTxtDialog(getActivity(), R.style.MyDialog, "歌单").show();
+		
 	}
 
 	@Override
@@ -647,11 +683,22 @@ public class SongNameFragment extends CommonFragment implements
 	}
 
 	public void refresh(ArrayList<SongSearchBean> songs) {
-		// Log.i("song","refresh data 1111111");
+		 Log.i("song","refresh data size 111===="+songs.size());
 		if (mAdapter != null)
 			mAdapter.refresh(songs);
-		// list_start = 0;
-		// currentPage = 1;
+			if(songs.size()<8 && MyApplication.isGridviewFocus){//最后一页，焦点回到第一条
+			/*	try {
+		            Method fireOnSelected = AdapterView.class.getDeclaredMethod("fireOnSelected", null);
+		            fireOnSelected.setAccessible(true);
+		            fireOnSelected.invoke(gvSong); //运行该方法
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }*/
+				gvSong.requestFocus();
+				gvSong.requestFocusFromTouch();
+				gvSong.setSelection(0);
+			
+			}
 	}
 
 	private class MyReciver extends BroadcastReceiver {
@@ -659,11 +706,7 @@ public class SongNameFragment extends CommonFragment implements
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
 			// TODO Auto-generated method stub
-			/*
-			 * if("justlink.action.intent.songlist_focus".equals(arg1.getAction()
-			 * ) && gvSong!=null) // gvSong.setSelection(4);
-			 * //Log.i("song","receive boardcast=====");
-			 */
+		
 			if ("justlink.action.intent.refresh_searchcount".equals(arg1
 					.getAction())) {
 				// Log.i("song","receive boardcast for refresh count=====");
@@ -673,6 +716,14 @@ public class SongNameFragment extends CommonFragment implements
 					.getAction())) {
 				list_start = 0;
 				currentPage = 1;
+			}else if("justlink.action.intent.data_inited".equals(arg1.getAction())){//数据初始化完成后刷新网络推荐歌单
+				 Log.i("song","receive boardcast for refresh netdata=====");
+				 pb.setVisibility(View.GONE);
+					ArrayList<SongSearchBean> songs = SongJsonParseUtils.getSongDatas2(0,
+							"", 0, enterType, layerType, 0, 8, "");
+					mAdapter.refresh(songs);
+					tvTitelCount.setText(MyApplication.currentSinger + "/"
+							+ SongJsonParseUtils.getSearchKey() + getPageInfo());
 			}
 		}
 
@@ -749,7 +800,7 @@ public class SongNameFragment extends CommonFragment implements
 
 		} else if (keyCode == event.KEYCODE_DPAD_UP) {
 			if (mHandler != null) {
-				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);
+				//mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);
 				if (!MyApplication.isSearchViewShow)
 					mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_UNFOCUS_SEARCHVIEW);
 			}
@@ -779,20 +830,20 @@ public class SongNameFragment extends CommonFragment implements
 					&& MyApplication.isSongNameFragment) {
 				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_RESET_TOPBUTTON_FOCUS);
 				currentPosition = 0;
-				 Log.i("song","song name reset top focus==========");
+//				 Log.i("song","song name reset top focus==========");
 			}
 
 		} else if (keyCode == event.KEYCODE_DPAD_RIGHT) {
 
 			if (mAdapter == null || MyApplication.isTopButtonFocus)
 				return false;
-			if (mHandler != null)
-				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);
+		/*	if (mHandler != null)
+				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);*/
 
 		} else if (keyCode == event.KEYCODE_DPAD_LEFT) {
-			if (!MyApplication.isGridviewFocus && mHandler != null
+			/*if (!MyApplication.isGridviewFocus && mHandler != null
 					&& !MyApplication.isSearchViewShow)
-				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);
+				mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_BAN_YIDIAN_BUTTON_FOCUS);*/
 			if (MyApplication.isSearchViewShow
 					&& (MyApplication.currentItemPosition == 4 || MyApplication.currentItemPosition == 6)
 					&& MyApplication.isSongNameFragment) {
@@ -810,7 +861,7 @@ public class SongNameFragment extends CommonFragment implements
 		else
 			MyApplication.isShowDownloadProgress = false;
 
-		// Log.i("song","left-right-count==="+left_right_count);
+		 Log.i("song","songname onkeydown isShowDownloadProgress==="+MyApplication.isShowDownloadProgress);
 		return false;
 	}
 
@@ -819,7 +870,7 @@ public class SongNameFragment extends CommonFragment implements
 	public void onFocusChange(View arg0, boolean arg1) {
 		// TODO Auto-generated method stub
 		//setClassState();
-		Log.i("song","class focus change=========="+arg1);
+	//	Log.i("song","class focus change=========="+arg1);
 		if (arg1 && !isBanClassFocus){
 		switch (arg0.getId()) {
 		case R.id.btn_language_all://全部

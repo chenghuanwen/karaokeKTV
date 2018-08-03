@@ -9,7 +9,7 @@
             android:layout_height="45dp"  
             android:layout_width="45dp"
 			android:layout_centerVertical="true" 
-			android:layout_marginLeft="113dp" 
+			android:layout_marginLeft="58dp" 
 			android:background="@drawable/btn_pre_selecter"
             />
 		<TextView  

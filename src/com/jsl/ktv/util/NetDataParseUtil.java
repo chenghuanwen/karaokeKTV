@@ -33,7 +33,7 @@ public class NetDataParseUtil {
 	private static NetDataParseUtil instance;
 	private OkHttpClient httpClient;
 	private int totalCount = 0;
-	private HashMap<String,String> map = new HashMap<String, String>();;
+	private HashMap<String,String> map = new HashMap<String, String>();
 	
 	private NetDataParseUtil(){
 		httpClient = new OkHttpClient.Builder().build();
@@ -70,7 +70,7 @@ public class NetDataParseUtil {
 		}
 		RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),json);
 		
-		Request request = new Request.Builder().post(body).url("http://api.jiashilian.com/Api/songlist/getlist").build();
+		Request request = new Request.Builder().post(body).url("http://api.jiashilian.com:8888/Api/songlist/getlist").build();
 		httpClient.newCall(request).enqueue(new Callback() {
 			
 			@Override
@@ -134,14 +134,14 @@ public class NetDataParseUtil {
 		}
 		RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),json);
 		
-		Request request = new Request.Builder().url(" http://api.jiashilian.com/Api/songlist/getinfo").post(body).build();
+		Request request = new Request.Builder().url(" http://api.jiashilian.com:8888/Api/songlist/getinfo").post(body).build();
 		httpClient.newCall(request).enqueue(new Callback() {
 			
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
 				// TODO Auto-generated method stub
 				String resp = arg1.body().string();
-				//Log.i("song","recommend song list======"+resp);
+			//	Log.i("song","recommend song list======"+resp);
 				try {
 					JSONObject object = new JSONObject(resp);
 					int result = object.getInt("result");
@@ -166,7 +166,7 @@ public class NetDataParseUtil {
 			}
 			
 			@Override
-			public void onFailure(Call arg0, IOException arg1) {
+			public void onFailure(Call arg0, IOException arg1) { 
 				// TODO Auto-generated method stub
 				listener.onLoadFinish(null);
 				

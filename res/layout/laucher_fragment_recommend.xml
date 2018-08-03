@@ -4,17 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <GridView 
+    <com.jsl.ktv.view.CustomeGridView  
         android:id="@+id/gv_recommend"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-         android:layout_marginLeft="10dp"
-		android:layout_marginTop="130dp"
+        android:layout_height="wrap_content"
+     
+		android:layout_marginTop="150dp"
         android:scrollbars="none"
         android:numColumns="3"
-        android:listSelector="@drawable/recommend_back_selecter"  
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="20dp"></GridView>
+        android:columnWidth="230dp"
+    	android:listSelector="@drawable/singer_back_selecter"
+        android:horizontalSpacing="30dp"
+        android:verticalSpacing="30dp"></com.jsl.ktv.view.CustomeGridView >
     
 
 </LinearLayout>

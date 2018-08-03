@@ -46,7 +46,7 @@ public class SongJsonParseUtils {
 			searchKey = search_key;
 			String result = JNILib.getSongData(cmdObject2.toString());
 			//Log.i("song","搜索命令==="+cmdObject2.toString());
-			Log.i("song","搜索结果222==="+result);
+			//Log.i("song","搜索结果222==="+result);
 			if(TextUtils.isEmpty(result))
 				return null;
 			return parseJSONObect(result,false);
@@ -79,7 +79,7 @@ public class SongJsonParseUtils {
 			searchKey = search_key;
 			String result = JNILib.getSongData(cmdObject2.toString());
 			//Log.i("song","搜索命令==="+cmdObject2.toString());
-			Log.i("song","搜索结果==333="+result);
+			//Log.i("song","搜索结果==333="+result);
 			if(TextUtils.isEmpty(result))
 				return null;
 			return parseJSONObect(result,true);
@@ -130,7 +130,7 @@ public class SongJsonParseUtils {
 				song.setCloud((listObject.getInt("cloud_flag")==0 || listObject.getInt("cloud_flag")==1002)?false:true);
 				if(listObject.has("upload"))
 				song.setUpload(listObject.getInt("upload")==0?false:true);
-				if(listObject.has("language") && listObject.getInt("language")>0){
+				if(listObject.has("language") && listObject.getInt("language")>0 && listObject.getInt("language")<18){
 				song.setLanguage(VideoString.song_search_chinese[listObject.getInt("language")-1]);	
 				}else{
 				song.setLanguage(VideoString.song_search_chinese[0]);
@@ -141,6 +141,10 @@ public class SongJsonParseUtils {
 				}else{
 					song.setSinger(listObject.getString("singer1"));	
 				}
+				
+				if(listObject.has("down_stat"))
+					song.setDownSta(listObject.getInt("down_stat"));
+				
 				song.setSong(listObject.getString("song_name"));
 				song.setSongNumber(listObject.getString("song_number"));
 				if(listObject.has("rec_id"))
@@ -193,6 +197,8 @@ public class SongJsonParseUtils {
 				}else{
 					song.setSinger(listObject.getString("singer1"));	
 				}
+				if(listObject.has("down_stat"))
+					song.setDownSta(listObject.getInt("down_stat"));
 				song.setSong(listObject.getString("song_name"));
 				song.setSongNumber(listObject.getString("song_number"));
 				if(listObject.has("rec_id"))

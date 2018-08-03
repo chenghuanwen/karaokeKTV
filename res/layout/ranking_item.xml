@@ -8,7 +8,7 @@
         android:layout_width="285dp"
         android:layout_height="440dp"
         android:layout_margin="11dp"
-        android:src="@drawable/b" 
+        android:src="@drawable/song_default" 
         android:focusable="true"
         android:scaleType="fitXY"
 		/>
@@ -22,11 +22,13 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="303dp"
-        android:layout_height="wrap_content"
+        android:layout_width="285dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/singer_bk_image"
-        android:textColor="#fff"
-        android:layout_marginTop="10dp"
+        android:textColor="#333"
+        android:background="#fff"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="-1dp"
           android:gravity="center"/>
 
 </RelativeLayout>

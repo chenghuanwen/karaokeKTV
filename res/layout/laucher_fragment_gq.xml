@@ -134,6 +134,12 @@
         android:textColor="#fff"
         android:textSize="20sp"
         android:gravity="center"/>
+    <ProgressBar 
+        android:id="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center"/>
     </FrameLayout>
     <ImageView 
         android:id="@+id/iv_pageup"

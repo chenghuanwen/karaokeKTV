@@ -14,9 +14,11 @@ import android.util.Log;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ComponentName; 
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -30,6 +32,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import com.jsl.ktv.constant.FragmentMessageConstant;
+import com.jsl.ktv.fragment.SingerFragment.MyReceiver;
 import com.jsl.ktv.karaok.MainActivity;
 
 import android.view.Gravity;
@@ -113,6 +116,9 @@ public class HomeFragment extends CommonFragment implements OnClickListener{
 	private MainActivity maActivity;
 	private SingerFragment singerFragment;
 	private SongNameFragment songFragment;
+	private MyReceiver myReciver;
+	
+	
 	public HomeFragment(){};
 	public HomeFragment(Handler handler){
 		this.mHandler = handler;
@@ -126,6 +132,15 @@ public class HomeFragment extends CommonFragment implements OnClickListener{
 		return myview;
 	}
 
+	
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		registReciver();
+	}
+	
+	
 	@SuppressLint("NewApi")
 	@Override
 	public void onResume() {
@@ -149,6 +164,7 @@ public class HomeFragment extends CommonFragment implements OnClickListener{
 	@Override
 	public void onStop() {
 		super.onStop();
+		getActivity().unregisterReceiver(myReciver);
 		//mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_HIDE_YIDIAN_LIST);
 	}
 
@@ -420,4 +436,29 @@ public class HomeFragment extends CommonFragment implements OnClickListener{
 		return false;
 	}
 	
+	private class MyReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			// TODO Auto-generated method stub
+			if("justlink.intent.action.homefragment_requst_focus".equals(arg1.getAction())){
+				button_1.setFocusable(true);
+				button_1.requestFocus();
+			}else if("justlink.intent.action.ban_home_focus".equals(arg1.getAction())){
+				button_1.setFocusable(false);
+			}
+		}
+		
+	}
+	
+	@SuppressLint("NewApi")
+	private void registReciver() {
+		// TODO Auto-generated method stub
+		myReciver = new MyReceiver();
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("justlink.intent.action.homefragment_requst_focus");
+		filter.addAction("justlink.intent.action.ban_home_focus");
+		getActivity().registerReceiver(myReciver, filter);
+		
+	}
 }

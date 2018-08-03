@@ -118,7 +118,7 @@ public class Wuqu_Fragment extends CommonFragment implements OnClickListener{
 	@Override
 	public void onStop() {
 		super.onStop();
-		
+		main.setFragmentPosition(1);
 	}
 
 	

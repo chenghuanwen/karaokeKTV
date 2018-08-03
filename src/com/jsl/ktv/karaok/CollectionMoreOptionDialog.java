@@ -92,6 +92,7 @@ public class CollectionMoreOptionDialog extends Dialog implements android.view.V
             mHandler.sendEmptyMessage(FragmentMessageConstant.FRAGMENT_MESSAGE_REFRESH_YIDIAN_LIST);
 			break;
 		case R.id.view_btn4://删除
+			dismiss();
 			showDeleteDialog();
 			break;
 		case R.id.view_btn5://�?��全点
@@ -153,6 +154,7 @@ public class CollectionMoreOptionDialog extends Dialog implements android.view.V
 			//SystemClock.sleep(50);
 	//	Log.i("song","歌号=="+songs.get(i).getSongNumber()+"操作结果=="+state);
 		}
+		dismiss();
 		Toast.makeText(getContext(),context.getResources().getString(R.string.song_all_add_ok), Toast.LENGTH_SHORT).show();
 	}
 	
